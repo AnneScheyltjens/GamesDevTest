@@ -15,6 +15,8 @@ namespace TestGame.Input
         private Keys up = Keys.Up;
         private Keys down = Keys.Down;
 
+        public bool IsDestinationInput => false;
+
         public Vector2 ReadInput()
         {
             KeyboardState state = Keyboard.GetState();

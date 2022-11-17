@@ -10,5 +10,6 @@ namespace TestGame.Input
     internal interface IInputReader
     {
         Vector2 ReadInput();
+        public bool IsDestinationInput { get; }
     }
 }

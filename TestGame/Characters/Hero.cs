@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+//using SharpDX.Direct2D1;
 using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace TestGame.Characters
         private Vector2 positie;
         private Vector2 snelheid;
         private Vector2 versnelling;
+        private Richting richting;
 
         private IInputReader _inputReader;
 
@@ -70,62 +72,64 @@ namespace TestGame.Characters
 
         public void Update(GameTime gameTime)
         {
+
+            Move();
+            animation.Update(gameTime, richting);
+            //MoveOld();   //moved het vanzelf
+
+        }
+
+        public void Move()
+        {
             var direction = _inputReader.ReadInput();
+            Debug.WriteLine(positie);
+
+            if (_inputReader.IsDestinationInput)
+            {
+                direction -= positie;
+                if (direction != Vector2.Zero)
+                {
+                    direction.Normalize();
+                }
+            }
+
+            Debug.WriteLine(positie);
+
             direction *= snelheid;
             Vector2 oldPositie = positie;
             positie += direction;
-            Richting nieuweRichting = Richting.Idle;
+            richting = Richting.Idle;
 
-            //niet buiten het scherm gaan
-            //kijk of de volgende positie buiten het scherm zou vallen
-            //als de X of Y te groot of te klein zouden worden
-            if (positie.X > 800 - 128 || positie.X < 0)
-            {
-                positie.X = oldPositie.X;
-            }
-
-            if (positie.Y > 480 - 128 || positie.Y < 0)
-            {
-                positie.Y = oldPositie.Y;
-                
-            }
+            Debug.WriteLine(positie);
 
 
-            if (positie.X < oldPositie.X)
+            if (oldPositie.X > positie.X)
             {
                 //naar links
-                nieuweRichting = Richting.Left;
+                richting = Richting.Left;
             }
 
             if (oldPositie.X < positie.X)
             {
                 //naar rechts
-                nieuweRichting = Richting.Right;
+                richting = Richting.Right;
             }
 
             if (positie.Y < oldPositie.Y)
             {
                 //naar boven
-                nieuweRichting = Richting.Up;
+                richting = Richting.Up;
             }
 
             if (oldPositie.Y < positie.Y)
             {
                 //naar onder
-                nieuweRichting = Richting.Down;
+                richting = Richting.Down;
             }
-
-            
-
-
-
-
-            animation.Update(gameTime, nieuweRichting);
-            //Move();   //moved het vanzelf
 
         }
 
-        public void Move()
+        public void MoveOld()
         {
             
             positie += snelheid;
