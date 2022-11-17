@@ -5,6 +5,7 @@ using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using TestGame.Characters;
+using TestGame.Input;
 
 namespace TestGame
 {
@@ -33,7 +34,7 @@ namespace TestGame
            
             base.Initialize();
 
-            _sheep = new Hero(_sheepTexture);
+            _sheep = new Hero(_sheepTexture, new KeyboardReader());
         }
 
         protected override void LoadContent()

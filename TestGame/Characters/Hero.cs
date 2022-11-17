@@ -8,13 +8,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestGame.Input;
 
 namespace TestGame.Characters
 {
     internal class Hero : IGameObject
     {
         private Texture2D _texture;
-        private Rectangle _deelRectangle;
         private int schuifOp_X = 0;
         private int schuifOp_Y = 0;
 
@@ -23,12 +23,14 @@ namespace TestGame.Characters
         private Vector2 snelheid;
         private Vector2 versnelling;
 
-        public Hero(Texture2D texture)
+        private IInputReader _inputReader;
+
+        public Hero(Texture2D texture, IInputReader inputReader)
         {
             this._texture = texture;
-            _deelRectangle = new Rectangle(schuifOp_X, schuifOp_Y, 128, 128);
 
             animation = new Animation();
+            #region add frames
             //rij 0
             animation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 128, 128)));
             animation.AddFrame(new AnimationFrame(new Rectangle(128, 0, 128, 128)));
@@ -49,10 +51,13 @@ namespace TestGame.Characters
             animation.AddFrame(new AnimationFrame(new Rectangle(128, 384, 128, 128)));
             animation.AddFrame(new AnimationFrame(new Rectangle(256, 384, 128, 128)));
             animation.AddFrame(new AnimationFrame(new Rectangle(384, 384, 128, 128)));
+            #endregion
 
             positie = new Vector2(0, 0);
             snelheid = new Vector2(5, 5);
             versnelling = new Vector2(0.1f, 0.1f);
+
+            _inputReader = inputReader;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -65,9 +70,58 @@ namespace TestGame.Characters
 
         public void Update(GameTime gameTime)
         {
+            var direction = _inputReader.ReadInput();
+            direction *= snelheid;
+            Vector2 oldPositie = positie;
+            positie += direction;
+            Richting nieuweRichting = Richting.Idle;
+
+            //niet buiten het scherm gaan
+            //kijk of de volgende positie buiten het scherm zou vallen
+            //als de X of Y te groot of te klein zouden worden
+            if (positie.X > 800 - 128 || positie.X < 0)
+            {
+                positie.X = oldPositie.X;
+            }
+
+            if (positie.Y > 480 - 128 || positie.Y < 0)
+            {
+                positie.Y = oldPositie.Y;
+                
+            }
+
+
+            if (positie.X < oldPositie.X)
+            {
+                //naar links
+                nieuweRichting = Richting.Left;
+            }
+
+            if (oldPositie.X < positie.X)
+            {
+                //naar rechts
+                nieuweRichting = Richting.Right;
+            }
+
+            if (positie.Y < oldPositie.Y)
+            {
+                //naar boven
+                nieuweRichting = Richting.Up;
+            }
+
+            if (oldPositie.Y < positie.Y)
+            {
+                //naar onder
+                nieuweRichting = Richting.Down;
+            }
+
             
-            animation.Update(gameTime);
-            Move();
+
+
+
+
+            animation.Update(gameTime, nieuweRichting);
+            //Move();   //moved het vanzelf
 
         }
 
