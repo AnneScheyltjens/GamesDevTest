@@ -49,6 +49,7 @@ namespace TestGame
             {
                 //counter++;    //wanneer we gewoon naar de volgende frame wilden gaan
                 ChangeFrame(richting);
+                //CurrentFrame = frames[0];
                 secondCounter = 0;
             }
 
@@ -84,8 +85,6 @@ namespace TestGame
                     currentFrameNr = richtingNr * 4;
                 }
             }
-
-
 
             CurrentFrame = frames[currentFrameNr];
 

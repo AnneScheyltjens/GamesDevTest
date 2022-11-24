@@ -13,12 +13,11 @@ namespace TestGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Random rand = new Random();
+        //private Random rand = new Random();
 
        
         Hero _sheep;
         private Texture2D _sheepTexture;
-
 
         public Game1()
         {
@@ -34,7 +33,8 @@ namespace TestGame
            
             base.Initialize();
 
-            _sheep = new Hero(_sheepTexture, new KeyboardReader());
+            _sheep = new Hero(_sheepTexture, new KeyboardReader(), GraphicsDevice);
+           
         }
 
         protected override void LoadContent()
@@ -44,6 +44,8 @@ namespace TestGame
             // TODO: use this.Content to load your game content here
 
             _sheepTexture = Content.Load<Texture2D>("Sheep");
+
+
 
         }
 
@@ -55,6 +57,7 @@ namespace TestGame
             // TODO: Add your update logic here
 
             _sheep.Update(gameTime);
+           
             base.Update(gameTime);
         }
 
@@ -72,6 +75,7 @@ namespace TestGame
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
+            
             _sheep.Draw(_spriteBatch);
             _spriteBatch.End();
 

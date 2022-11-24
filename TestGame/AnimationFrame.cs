@@ -10,10 +10,18 @@ namespace TestGame
     internal class AnimationFrame
     {
         public Rectangle SourceRectangle { get; set; }
-        
-        public AnimationFrame(Rectangle sourceRectangle)
+        public Rectangle HitboxRectangle { get; set; }
+
+        public AnimationFrame(Rectangle sourceRectangle, Rectangle hitbox)
         {
             SourceRectangle = sourceRectangle;
+            HitboxRectangle = hitbox;
+            
         }
+
+        /*public AnimationFrame(Rectangle sourceRectangle)
+        {
+            SourceRectangle = sourceRectangle;
+        }*/
     }
 }
