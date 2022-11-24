@@ -16,14 +16,16 @@ using TestGame.Input;
 
 namespace TestGame.Characters
 {
-    internal class Hero : IGameObject//, IMovable
+    internal class Hero : IGameObject  //, IMovable
     {
-        private Texture2D _texture;
+        //private Texture2D _texture;
+        public Texture2D Texture { get; set; }
         private int schuifOp_X = 0;
         private int schuifOp_Y = 0;
 
         private Animation animation;
 
+        
 
 
         private Texture2D hitbox;
@@ -74,7 +76,7 @@ namespace TestGame.Characters
 
         public Hero(Texture2D texture, IInputReader inputReader, GraphicsDevice graphics)
         {
-            this._texture = texture;
+            Texture = texture;
             hitbox = new Texture2D(graphics, 1, 1);
             hitbox.SetData(new[] { Color.White });
 
@@ -151,7 +153,7 @@ namespace TestGame.Characters
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(hitbox, HitboxPosition, animation.CurrentFrame.HitboxRectangle, Color.Green);
-            spriteBatch.Draw(_texture, positie, animation.CurrentFrame.SourceRectangle, Color.White);
+            spriteBatch.Draw(Texture, positie, animation.CurrentFrame.SourceRectangle, Color.White);
             //Debug.WriteLine(positie);
 
         }
@@ -259,10 +261,7 @@ namespace TestGame.Characters
                 richting = Richting.Down;
             }
 
-            
             #endregion
-
-
 
         }
 

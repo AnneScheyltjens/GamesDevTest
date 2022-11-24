@@ -10,7 +10,8 @@ namespace TestGame
 {
     internal interface IGameObject
     {
-        void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
+        void Update(GameTime gameTime);
+        public Texture2D Texture { get; set; }
     }
 }
