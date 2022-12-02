@@ -24,16 +24,16 @@ namespace TestGame.Input
             if (state.IsKeyDown(left))
             {
                 direction.X -= 1;
-            }
+            } else
             if (state.IsKeyDown(right))
             {
                 direction.X += 1;
-            }
+            } else
 
             if (state.IsKeyDown(up))
             {
                 direction.Y -= 1;
-            }
+            } else
             if (state.IsKeyDown(down))
             {
                 direction.Y += 1;

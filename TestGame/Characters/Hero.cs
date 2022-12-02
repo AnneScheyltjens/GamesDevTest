@@ -23,19 +23,24 @@ namespace TestGame.Characters
         private int schuifOp_X = 0;
         private int schuifOp_Y = 0;
 
-        private Animation animation;
+        //private Animation animation;
+
+        public Animation Animation { get; set; }
+
 
         
-
-
         private Texture2D hitbox;
-        //public Rectangle Hitbox { get; set; }
+        public Rectangle HitboxRectangle { get; set; }   //deze steeds opnieuw maken met de geupdate hitboxPosition
         public Vector2 HitboxPosition { get; set; }
+
         public Vector2 HitboxDownNr { get; set; }
         public Vector2 HitboxUpNr { get; set; }
         public Vector2 HitboxBreedNr { get; set; }
+
         public Vector2 SourceRectNr { get; set; }
 
+        public Rectangle NextRectagle { get; set; }
+        public Vector2 OldPosition { get; set; }
 
         //old, but needed for new
         private Vector2 positie;
@@ -43,6 +48,10 @@ namespace TestGame.Characters
         private Vector2 versnelling;
         private Richting richting;
         private IInputReader _inputReader;
+
+        private float scale = 1;// (float)1.5;
+        private int scaleXAdd = 0;//24;
+        private int scaleYAdd = 0;//23;
         
 
         #region movementManager
@@ -80,60 +89,45 @@ namespace TestGame.Characters
             hitbox = new Texture2D(graphics, 1, 1);
             hitbox.SetData(new[] { Color.White });
 
-            SourceRectNr = new Vector2(128, 128);
-            HitboxBreedNr = new Vector2(35, 47);
-            HitboxDownNr = new Vector2(48, 47);
-            HitboxUpNr = new Vector2(48, 40);
-
-
-            Rectangle breedHitbox = new Rectangle(
-                (int)positie.X + (int)HitboxBreedNr.X,
-                (int)positie.Y + (int)HitboxBreedNr.Y,
-                (int)SourceRectNr.X - 40 - (int)HitboxBreedNr.X,
-                (int)SourceRectNr.Y - 40 - (int)HitboxBreedNr.Y);
-
-            Rectangle upHitbox = new Rectangle(
-                (int)positie.X + (int)HitboxUpNr.X,
-                (int)positie.Y + (int)HitboxUpNr.Y,
-                (int)SourceRectNr.X - 50 - (int)HitboxUpNr.X,
-                (int)SourceRectNr.Y - 40 - (int)HitboxUpNr.Y);
-            
-            Rectangle downHitbox = new Rectangle(
-                (int)positie.X + (int)HitboxDownNr.X,
-                (int)positie.Y + (int)HitboxDownNr.Y,
-                (int)SourceRectNr.X - 50 - (int)HitboxDownNr.X,
-                (int)SourceRectNr.Y - 40 - (int)HitboxDownNr.Y);
-
-            animation = new Animation();
-            #region add frames
-            //rij 0
-            animation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 128, 128), upHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(128, 0, 128, 128), upHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(256, 0, 128, 128), upHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(384, 0, 128, 128), upHitbox));
-            //rij 1
-            animation.AddFrame(new AnimationFrame(new Rectangle(0, 128, 128, 128), breedHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(128, 128, 128, 128), breedHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(256, 128, 128, 128), breedHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(384, 128, 128, 128), breedHitbox));
-            //rij 2
-            animation.AddFrame(new AnimationFrame(new Rectangle(0, 256, 128, 128), downHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(128, 256, 128, 128), downHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(256, 256, 128, 128), downHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(384, 256, 128, 128), downHitbox));
-            //rij 3
-            animation.AddFrame(new AnimationFrame(new Rectangle(0, 384, 128, 128), breedHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(128, 384, 128, 128), breedHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(256, 384, 128, 128), breedHitbox));
-            animation.AddFrame(new AnimationFrame(new Rectangle(384, 384, 128, 128), breedHitbox));
-            #endregion
-            
             //old 
-            positie = new Vector2(0, 0);
+            positie = new Vector2(240, 240);
             snelheid = new Vector2(5, 5);
             versnelling = new Vector2(0.1f, 0.1f);
             //new
             //movementManager = new MovementManager();
+
+            SourceRectNr = new Vector2(128, 128);
+            HitboxBreedNr = new Vector2(50, 45);
+            HitboxDownNr = new Vector2(29, 42);
+            HitboxUpNr = new Vector2(29, 50);
+
+
+
+            Animation = new Animation();
+            #region add frames
+            //rij 0
+            Animation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(128, 0, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(256, 0, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(384, 0, 128, 128)));
+            //rij 1
+            Animation.AddFrame(new AnimationFrame(new Rectangle(0, 128, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(128, 128, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(256, 128, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(384, 128, 128, 128)));
+            //rij 2
+            Animation.AddFrame(new AnimationFrame(new Rectangle(0, 256, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(128, 256, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(256, 256, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(384, 256, 128, 128)));
+            //rij 3
+            Animation.AddFrame(new AnimationFrame(new Rectangle(0, 384, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(128, 384, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(256, 384, 128, 128)));
+            Animation.AddFrame(new AnimationFrame(new Rectangle(384, 384, 128, 128)));
+            #endregion
+            
+            
 
             //standaard
             //Hitbox = animation.CurrentFrame.SourceRectangle;
@@ -146,14 +140,17 @@ namespace TestGame.Characters
 
             //HitboxPosition = new Vector2((int)positie.X + 40, (int)positie.Y + 40);
             HitboxPosition = new Vector2((int)positie.X + (int)HitboxDownNr.X, (int)positie.Y + (int)HitboxDownNr.Y);
+            //HitboxPosition = new Vector2((int)positie.X + (int)HitboxDownNr.X + scaleXAdd, (int)positie.Y + (int)HitboxDownNr.Y + scaleYAdd);
             _inputReader = inputReader;
             
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(hitbox, HitboxPosition, animation.CurrentFrame.HitboxRectangle, Color.Green);
-            spriteBatch.Draw(Texture, positie, animation.CurrentFrame.SourceRectangle, Color.White);
+            //spriteBatch.Draw(hitbox, HitboxPosition, animation.CurrentFrame.HitboxRectangle, Color.Green);
+            spriteBatch.Draw(hitbox, HitboxPosition, HitboxRectangle, Color.Green, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0) ;
+            //spriteBatch.Draw(Texture, positie, animation.CurrentFrame.SourceRectangle, Color.White);
+            spriteBatch.Draw(Texture, positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0);
             //Debug.WriteLine(positie);
 
         }
@@ -162,43 +159,70 @@ namespace TestGame.Characters
         {
 
             Move();
-            animation.Update(gameTime, richting);
-            
-            //MoveOld();   //moved het vanzelf
-            /*Hitbox = new Rectangle(
-                (int)positie.X + 40,
-                (int)positie.Y + 40,
-                animation.CurrentFrame.SourceRectangle.Width - 80,
-                animation.CurrentFrame.SourceRectangle.Height - 80);*/
+            Animation.Update(gameTime, richting);
 
+            //MoveOld();   //moved het vanzelf
+
+            updateRectangles();
+
+            //HitboxPosition = new Vector2((int)positie.X + 40, (int)positie.Y + 40);
+
+
+        }
+
+        private void updateRectangles()
+        {
             //check richting
-            //smal if idle, up, down
-            if (richting == Richting.Idle || richting == Richting.Down)
+            //small if idle, up, down
+
+            if (richting == Richting.Idle)
             {
                 HitboxPosition = new Vector2(
-                    (int)positie.X + (int)HitboxDownNr.X,
-                    (int)positie.Y + (int)HitboxDownNr.Y);
-            } else if (richting == Richting.Up)
+                    (int)positie.X + (int)HitboxDownNr.X + 20 + scaleXAdd,
+                    (int)positie.Y + (int)HitboxDownNr.Y + 3 + scaleYAdd);
+                HitboxRectangle = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, (int)HitboxDownNr.X, (int)HitboxDownNr.Y);
+                //NextRectagle = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, (int)HitboxDownNr.X, (int)HitboxDownNr.Y);
+
+            }
+            else if (richting == Richting.Down)
             {
                 HitboxPosition = new Vector2(
-                    (int)positie.X + (int)HitboxUpNr.X,
-                    (int)positie.Y + (int)HitboxUpNr.Y);
+                    (int)positie.X + (int)HitboxDownNr.X + 20 + scaleXAdd,
+                    (int)positie.Y + (int)HitboxDownNr.Y + 3 + scaleYAdd);
+                HitboxRectangle = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, (int)HitboxDownNr.X, (int)HitboxDownNr.Y);
+                //NextRectagle = new Rectangle((int)positie.X + (int)HitboxDownNr.X, (int)positie.Y + (int)HitboxDownNr.Y, (int)HitboxDownNr.X, (int)HitboxDownNr.Y);
+
+            }
+            else if (richting == Richting.Up)
+            {
+                HitboxPosition = new Vector2(
+                    (int)positie.X + (int)HitboxUpNr.X + 20 + scaleXAdd,
+                    (int)positie.Y + (int)HitboxUpNr.Y - 10 + scaleYAdd);
+                HitboxRectangle = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, (int)HitboxUpNr.X, (int)HitboxUpNr.Y);
+                //NextRectagle = new Rectangle((int)positie.X + (int)HitboxUpNr.X, (int)positie.Y + (int)HitboxUpNr.Y, (int)HitboxUpNr.X, (int)HitboxUpNr.Y);
+
+
             }
             else if (richting == Richting.Left)
             {
                 HitboxPosition = new Vector2(
-                    (int)positie.X + (int)HitboxBreedNr.X,
-                    (int)positie.Y + (int)HitboxBreedNr.Y-5);
-            } else
+                    (int)positie.X + (int)HitboxBreedNr.X - 12 + scaleXAdd,// -5,
+                    (int)positie.Y + (int)HitboxBreedNr.Y - 5 + scaleYAdd);
+                HitboxRectangle = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, (int)HitboxBreedNr.X, (int)HitboxBreedNr.Y);
+                //NextRectagle = new Rectangle((int)positie.X + (int)HitboxBreedNr.X, (int)positie.Y + (int)HitboxBreedNr.Y, (int)HitboxBreedNr.X, (int)HitboxBreedNr.Y);
+
+
+            }
+            else
             {
                 //schuif positie nog een beetje op
                 HitboxPosition = new Vector2(
-                    (int)positie.X + (int)HitboxBreedNr.X +5,
-                    (int)positie.Y + (int)HitboxBreedNr.Y-5);
+                    (int)positie.X + (int)HitboxBreedNr.X - 8 + scaleXAdd,//-5,
+                    (int)positie.Y + (int)HitboxBreedNr.Y - 5 + scaleYAdd);
+                HitboxRectangle = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, (int)HitboxBreedNr.X, (int)HitboxBreedNr.Y);
+                //NextRectagle = new Rectangle((int)positie.X + (int)HitboxBreedNr.X, (int)positie.Y + (int)HitboxBreedNr.Y, (int)HitboxBreedNr.X, (int)HitboxBreedNr.Y);
+
             }
-
-            //HitboxPosition = new Vector2((int)positie.X + 40, (int)positie.Y + 40);
-
         }
 
         public void Move()
@@ -220,42 +244,42 @@ namespace TestGame.Characters
             direction *= snelheid;
 
 
-            Vector2 oldPositie = positie;
+            OldPosition = positie;
             positie += direction;
             richting = Richting.Idle;
 
             if (positie.X > 800 - 88 || positie.X < 0-40)
             {
-                positie.X = oldPositie.X;
+                positie.X = OldPosition.X;
                 //versnelling.X *= -1;
             }
 
             if (positie.Y > 480 - 88 || positie.Y < 0-40)
             {
-                positie.Y = oldPositie.Y;
+                positie.Y = OldPosition.Y;
                 //versnelling *= -1;
             }
 
 
-            if (oldPositie.X > positie.X)
+            if (OldPosition.X > positie.X)
             {
                 //naar links
                 richting = Richting.Left;
             }
 
-            if (oldPositie.X < positie.X)
+            if (OldPosition.X < positie.X)
             {
                 //naar rechts
                 richting = Richting.Right;
             }
 
-            if (positie.Y < oldPositie.Y)
+            if (positie.Y < OldPosition.Y)
             {
                 //naar boven
                 richting = Richting.Up;
             }
 
-            if (oldPositie.Y < positie.Y)
+            if (OldPosition.Y < positie.Y)
             {
                 //naar onder
                 richting = Richting.Down;
@@ -263,6 +287,13 @@ namespace TestGame.Characters
 
             #endregion
 
+        }
+
+        public void UpdateToOldPostion(GameTime gameTime)
+        {
+            positie = OldPosition;
+            Animation.Update(gameTime, richting);
+            updateRectangles();
         }
 
         public void MoveOld()

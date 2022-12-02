@@ -22,6 +22,7 @@ namespace TestGame
         private State _currentState;
         private State _nextState;
 
+
         public void ChangeState(State state)
         {
             _nextState = state;
@@ -45,6 +46,11 @@ namespace TestGame
 
             IsMouseVisible = true;
 
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _graphics.HardwareModeSwitch = true;
+            //_graphics.ApplyChanges();
+
 
            
             base.Initialize();
@@ -57,7 +63,8 @@ namespace TestGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
+            //_currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
+            _currentState = new GameState(this, _graphics.GraphicsDevice, Content);
 
             /*var randomButton = new Button(Content.Load<Texture2D>("Controls/Button"), Content.Load<SpriteFont>("Fonts/Font"))
             {
@@ -148,31 +155,7 @@ namespace TestGame
 
 
 
-        /*int[,] gameboard = new int[,]
-        {
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {1,1,1,1,1,1,1,1 }
-        };
-
-        private void CreateBlocks()
-        {
-            for (int l = 0; l < gameboard.GetLength(0); l++)
-            {
-                for (int c = 0; c < gameboard.GetLength(1); c++)
-                {
-                    if (gameboard[l, c] == 1)
-                    {
-                        
-                    }
-                }
-            }
-        }*/
+        
 
     }
 }
