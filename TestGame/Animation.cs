@@ -91,5 +91,10 @@ namespace TestGame
             //Debug.WriteLine($"Richting: {richting}, currentframeNR: {currentFrameNr}");
 
         }
+
+        /*public void InitialUpdate(Richting richting)
+        {
+            ChangeFrame(richting);
+        }*/
     }
 }

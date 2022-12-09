@@ -11,6 +11,7 @@ using TestGame.Blocks;
 using TestGame.Characters;
 using TestGame.Input;
 using TestGame.Levels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TestGame.States
 {
@@ -18,7 +19,9 @@ namespace TestGame.States
     {
         private List<IGameObject> _gameObjects;
         private Hero hero;
-        private bool updateHero = true;
+        //private bool updateHero = true;
+        //private bool heroOnGround = false;
+        //private int groundLevel = 0;
         private LevelTest levelMap;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
@@ -26,6 +29,7 @@ namespace TestGame.States
             hero = sheep;
             LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice);
             levelMap = level;
+
 
             _gameObjects = new List<IGameObject>()
             {
@@ -53,41 +57,60 @@ namespace TestGame.States
 
         public override void Update(GameTime gametime)
         {
-            foreach (Block block in levelMap.Blocks)
-            {
-                //Debug.WriteLine(hero.NextPosition);
-                /*if (block.Hitbox.Intersects(hero.NextRectagle))
-                {
-                    //do not move the hero
-                    updateHero = false;
-                }
-                else
-                {*/
-                    //Debug.WriteLine(block.Hitbox);
-                    //var trueHeroBox = new Rectangle((int)hero.HitboxPosition.X, (int)hero.HitboxPosition.Y, hero.Animation.CurrentFrame.HitboxRectangle.Width, hero.Animation.CurrentFrame.HitboxRectangle.Height);
-                    if (block.Hitbox.Intersects(hero.HitboxRectangle))
-                    {
-                        //intersects with block from level
-                        updateHero = false;
-                    }
-                //}
-            }
-            
 
             foreach (IGameObject gameObject in _gameObjects)
             {
-                if (gameObject == hero && !updateHero)
+                gameObject.Update(gametime);
+
+
+                if (gameObject == hero)
                 {
-                    hero.UpdateToOldPostion(gametime);
-                    //skip the hero update
-                    //reset the collision detextor
-                    updateHero = true;
-                }
-                else
-                {
-                    //no problems
-                    gameObject.Update(gametime);
-                }
+                    bool walkOnGround = false;
+                    bool intersects = false;
+                    int groundLevel = 0;
+
+                    //check if next position is valid
+
+                    foreach (Block block in levelMap.Blocks)
+                    {
+                        if (block.Hitbox.Intersects(hero.NextPositie.HitboxRectangle))
+                        {
+                            //check of je op de vloer staat
+                            if (hero.NextPositie.HitboxRectangle.Bottom < block.Hitbox.Top)
+                            {
+                                //wandel op de vloer
+                                walkOnGround = true;
+                                groundLevel = block.Hitbox.Top;
+                            }
+                            else
+                            {
+                                intersects = true;
+                            }
+                        }
+                    }
+
+                    //if valid
+                    if (!intersects)
+                    {
+                        //check if walks on ground
+                        if (walkOnGround)
+                        {
+                            //adjust to walk on ground
+                            hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X, groundLevel);
+                        }
+
+                        //  move to next position
+                        hero.CurrentPositie = hero.NextPositie;
+                    }
+                    else
+                    {
+                        //if not valid
+                        //  no changes to position
+                        hero.CurrentPositie = hero.CurrentPositie;
+                    }
+                } 
+
+                
                 
             }
         }

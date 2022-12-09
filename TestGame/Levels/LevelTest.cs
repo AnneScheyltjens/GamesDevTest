@@ -92,6 +92,11 @@ namespace TestGame.Levels
                     
                 }
             }
+
+            Rectangle rectangleN = new Rectangle(260, 260, 64, 64);
+
+            Block blokje = new Block(Texture, new Vector2(260, 260), rectangleN, Scale, Graphics);
+            Blocks.Add(blokje);
         }
 
         public void Draw(SpriteBatch spriteBatch)
