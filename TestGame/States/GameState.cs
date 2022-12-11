@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,16 +26,16 @@ namespace TestGame.States
         private LevelTest levelMap;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
-            Hero sheep = new Hero(content.Load<Texture2D>("sheep"), new KeyboardReader(), graphicsDevice);
-            hero = sheep;
-            LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice);
+            //Hero sheep = new Hero(content.Load<Texture2D>("sheep"), new KeyboardReader(), graphicsDevice);
+            //hero = sheep;
+            LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice, content.Load<Texture2D>("sheep"), new KeyboardReader());
             levelMap = level;
-
+            hero = level.Hero;
 
             _gameObjects = new List<IGameObject>()
             {
                 level,
-                sheep,
+                hero,
 
             };
         }
@@ -57,7 +58,6 @@ namespace TestGame.States
 
         public override void Update(GameTime gametime)
         {
-
             foreach (IGameObject gameObject in _gameObjects)
             {
                 gameObject.Update(gametime);
@@ -76,7 +76,8 @@ namespace TestGame.States
                         if (block.Hitbox.Intersects(hero.NextPositie.HitboxRectangle))
                         {
                             //check of je op de vloer staat
-                            if (hero.NextPositie.HitboxRectangle.Bottom < block.Hitbox.Top)
+                            if (hero.NextPositie.HitboxRectangle.Bottom == block.Hitbox.Top ||
+                                hero.NextPositie.HitboxRectangle.Bottom == block.Hitbox.Top + 1)
                             {
                                 //wandel op de vloer
                                 walkOnGround = true;
@@ -96,7 +97,9 @@ namespace TestGame.States
                         if (walkOnGround)
                         {
                             //adjust to walk on ground
-                            hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X, groundLevel);
+                            hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X,
+                                 groundLevel - 3 - (2*hero.NextPositie.HitboxRectangle.Height)); // - hero.NextPositie.Positie.Y);
+                            hero.UpdateWithoutPositionRetrieve(gametime);
                         }
 
                         //  move to next position
@@ -106,7 +109,8 @@ namespace TestGame.States
                     {
                         //if not valid
                         //  no changes to position
-                        hero.CurrentPositie = hero.CurrentPositie;
+                        //hero.CurrentPositie = hero.CurrentPositie;
+                        
                     }
                 } 
 

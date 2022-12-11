@@ -40,7 +40,7 @@ namespace TestGame.Blocks
         {
             
             spriteBatch.Draw(HitboxTexture, Position, Hitbox,  Color.Red);
-            //spriteBatch.Draw(Texture, Position, Rectangle, Color.White);
+            spriteBatch.Draw(Texture, Position, Rectangle, Color.White);
             //spriteBatch.Draw(Texture, Position, Rectangle, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
         }
 

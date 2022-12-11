@@ -106,13 +106,13 @@ namespace TestGame.Characters
         #endregion
 
 
-        public Hero(Texture2D texture, IInputReader inputReader, GraphicsDevice graphics)
+        public Hero(Texture2D texture, IInputReader inputReader, GraphicsDevice graphics, Vector2 beginPositie)
         {
             Texture = texture;
             hitbox = new Texture2D(graphics, 1, 1);
             hitbox.SetData(new[] { Color.White });
 
-            YBeweging = 0;
+            YBeweging = -1;
             Gravity = 2;
 
             CurrentPositie = new Position();
@@ -120,7 +120,7 @@ namespace TestGame.Characters
 
             //old 
             //Positie = new Vector2(280, 280);
-            CurrentPositie.Positie = new Vector2(260, 260);
+            CurrentPositie.Positie = beginPositie;
             CurrentPositie.Richting = Richting.Idle;
             Snelheid = new Vector2(5, 5);
             versnelling = new Vector2(0.1f, 0.1f);
@@ -180,13 +180,14 @@ namespace TestGame.Characters
 
             CurrentPositie.HitboxRectangle = new Rectangle((int)CurrentPositie.HitboxPositie.X, (int)CurrentPositie.HitboxPositie.Y, (int)HitboxDownNr.X, (int)HitboxDownNr.Y);
 
+            NextPositie = CurrentPositie;
             //Animation.InitialUpdate(CurrentPositie.Richting);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(hitbox, HitboxPosition, animation.CurrentFrame.HitboxRectangle, Color.Green);
-            spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0) ;
+            //spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0) ;
             //spriteBatch.Draw(Texture, positie, animation.CurrentFrame.SourceRectangle, Color.White);
             
             spriteBatch.Draw(Texture, CurrentPositie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0);
@@ -194,7 +195,7 @@ namespace TestGame.Characters
 
         }
 
-        public void UpdateOld(GameTime gameTime)
+        public void UpdateWithoutPositionRetrieve(GameTime gameTime)
         {
 
             //Move();
@@ -209,7 +210,7 @@ namespace TestGame.Characters
 
         public void Update(GameTime gameTime)
         {
-
+            NextPositie = new Position();
             //get + save next position
 
             GetNextPosition();  //nextPosition is nu correct ingesteld
@@ -287,8 +288,8 @@ namespace TestGame.Characters
             else if (NextPositie.Richting == Richting.Left)
             {
                 NextPositie.HitboxPositie = new Vector2(
-                    (int)NextPositie.Positie.X + (int)HitboxBreedNr.X - 12 + scaleXAdd,// -5,
-                    (int)NextPositie.Positie.Y + (int)HitboxBreedNr.Y - 5 + scaleYAdd);
+                    (int)NextPositie.Positie.X + (int)HitboxBreedNr.X - 13 + scaleXAdd,// -5,
+                    (int)NextPositie.Positie.Y + (int)HitboxBreedNr.Y - 2.5f + scaleYAdd);
 
                 NextPositie.HitboxRectangle = new Rectangle(
                     (int)NextPositie.HitboxPositie.X, 
@@ -304,7 +305,7 @@ namespace TestGame.Characters
                 //schuif positie nog een beetje op
                 NextPositie.HitboxPositie = new Vector2(
                     (int)NextPositie.Positie.X + (int)HitboxBreedNr.X - 8 + scaleXAdd,//-5,
-                    (int)NextPositie.Positie.Y + (int)HitboxBreedNr.Y - 5 + scaleYAdd);
+                    (int)NextPositie.Positie.Y + (int)HitboxBreedNr.Y - 2.5f + scaleYAdd);
 
                 NextPositie.HitboxRectangle = new Rectangle(
                     (int)NextPositie.HitboxPositie.X,
@@ -332,7 +333,7 @@ namespace TestGame.Characters
 
             direction *= Snelheid;
 
-            NextPositie.Positie += direction;
+            NextPositie.Positie = CurrentPositie.Positie + direction;
             NextPositie.Richting = Richting.Idle;
 
 
@@ -364,6 +365,8 @@ namespace TestGame.Characters
             {
                 //naar rechts
                 NextPositie.Richting = Richting.Right;
+               
+
             }
 
             if (NextPositie.Positie.Y < CurrentPositie.Positie.Y)
@@ -378,9 +381,13 @@ namespace TestGame.Characters
                 NextPositie.Richting = Richting.Down;
             }
 
+
+
+            
+
             //if richting.up -> spring en daarna vallen
 
-            /*if (NextPositie.Richting == Richting.Up)
+            if (NextPositie.Richting == Richting.Up)
             {
                 //spring
                 YBeweging = -5;
@@ -391,7 +398,7 @@ namespace TestGame.Characters
             }
             //Positie.Y += YBeweging;
             NextPositie.Positie = new Vector2(NextPositie.Positie.X, NextPositie.Positie.Y + YBeweging);
-            */
+            
             #endregion
 
             //hitbox

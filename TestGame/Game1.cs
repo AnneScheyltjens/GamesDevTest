@@ -30,8 +30,8 @@ namespace TestGame
         }
 
        
-        Hero _sheep;
-        private Texture2D _sheepTexture;
+        //Hero _sheep;
+        //private Texture2D _sheepTexture;
 
         public Game1()
         {
@@ -55,7 +55,7 @@ namespace TestGame
            
             base.Initialize();
 
-            _sheep = new Hero(_sheepTexture, new KeyboardReader(), GraphicsDevice);
+            //_sheep = new Hero(_sheepTexture, new KeyboardReader(), GraphicsDevice);
            
         }
 
@@ -63,8 +63,8 @@ namespace TestGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //_currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
-            _currentState = new GameState(this, _graphics.GraphicsDevice, Content);
+            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
+            //_currentState = new GameState(this, _graphics.GraphicsDevice, Content);
 
             /*var randomButton = new Button(Content.Load<Texture2D>("Controls/Button"), Content.Load<SpriteFont>("Fonts/Font"))
             {
@@ -90,7 +90,7 @@ namespace TestGame
 
         // TODO: use this.Content to load your game content here
 
-        _sheepTexture = Content.Load<Texture2D>("Sheep");
+        //_sheepTexture = Content.Load<Texture2D>("Sheep");
 
 
 
@@ -126,7 +126,7 @@ namespace TestGame
 
             // TODO: Add your update logic here
 
-            _sheep.Update(gameTime);
+            //_sheep.Update(gameTime);
            
             base.Update(gameTime);
         }
