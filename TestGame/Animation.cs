@@ -26,10 +26,10 @@ namespace TestGame
         private Richting currentRichting;
 
 
-        public Animation()
+        public Animation(int startNr)
         {
             frames = new List<AnimationFrame>();
-            currentFrameNr = 9;
+            currentFrameNr = startNr;
             currentRichting = Richting.Idle;
         }
 
@@ -39,7 +39,7 @@ namespace TestGame
             CurrentFrame = frames[0];
         }
 
-        public void Update(GameTime gameTime, Richting richting)
+        public void Update(GameTime gameTime, Richting richting, int nrPerRij, int startNr)
         {
             
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -48,7 +48,7 @@ namespace TestGame
             if (secondCounter >= 1d/FPS)    //1 as double 
             {
                 //counter++;    //wanneer we gewoon naar de volgende frame wilden gaan
-                ChangeFrame(richting);
+                ChangeFrame(richting, nrPerRij, startNr);
                 //CurrentFrame = frames[0];
                 secondCounter = 0;
             }
@@ -59,30 +59,32 @@ namespace TestGame
             }
         }
 
-        private void ChangeFrame(Richting richting)
+        private void ChangeFrame(Richting richting, int nrPerRij, int startNr)
         {
             int richtingNr = (int)richting;
             //if idle, zet frame op 9
             if (richting == Richting.Idle)
             {
-                currentFrameNr = 9;
+                //currentFrameNr = 9;
+                currentFrameNr = startNr;
             }
             else if (richting != currentRichting)
             {
                 //andere richting, switch van richting
                 currentRichting = richting;
                 //zet frame op 1ste frame van die richting
-                currentFrameNr = richtingNr * 4;
+                //currentFrameNr = richtingNr * 4;
+                currentFrameNr = richtingNr * nrPerRij;
             }
             else
             {
                 //zelfde richting, maar volgende frame
                 currentFrameNr += 1;
                 //check dat je niet naar een frame van een andere richting gaat
-                if (currentFrameNr > (richtingNr * 4 + 3))
+                if (currentFrameNr > (richtingNr * nrPerRij + (nrPerRij-1)))
                 {
                     //terugzetten op 1ste frame van de richting
-                    currentFrameNr = richtingNr * 4;
+                    currentFrameNr = richtingNr * nrPerRij;
                 }
             }
 

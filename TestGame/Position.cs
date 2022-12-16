@@ -14,5 +14,16 @@ namespace TestGame
         //public Vector2 Snelheid { get; set; }
         public Vector2 HitboxPositie { get; set; }
         public Rectangle HitboxRectangle { get; set; }
+
+        public Position()
+        {
+
+        }
+
+        public Position(Vector2 positie, Rectangle hitboxRectangle)
+        {
+            Positie = positie;
+            HitboxRectangle = hitboxRectangle;
+        }
     }
 }

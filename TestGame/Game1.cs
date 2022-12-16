@@ -63,48 +63,17 @@ namespace TestGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
-            //_currentState = new GameState(this, _graphics.GraphicsDevice, Content);
+            //_currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
+            _currentState = new GameState(this, _graphics.GraphicsDevice, Content);
 
-            /*var randomButton = new Button(Content.Load<Texture2D>("Controls/Button"), Content.Load<SpriteFont>("Fonts/Font"))
-            {
-                Position = new Vector2(350, 200),
-                Text = "Random",
-            };
-
-            randomButton.Click += RandomButton_Click;
-
-            var quitButton = new Button(Content.Load<Texture2D>("Controls/Button"), Content.Load<SpriteFont>("Fonts/Font"))
-            {
-                Position = new Vector2(350, 250),
-                Text = "Quit",
-            };
-
-            quitButton.Click += QuitButton_Click;
-
-            _gameObjects = new List<IGameObject>()
-            {
-                randomButton, 
-                quitButton
-            };*/
+         
 
         // TODO: use this.Content to load your game content here
 
-        //_sheepTexture = Content.Load<Texture2D>("Sheep");
-
 
 
         }
-        /*
-        private void QuitButton_Click(object sender, EventArgs e)
-        {
-            Exit();
-        }
-        private void RandomButton_Click(object sender, EventArgs e)
-        {
-                Exit();
-        }
-        */
+        
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

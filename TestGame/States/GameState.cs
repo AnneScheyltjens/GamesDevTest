@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestGame.Blocks;
 using TestGame.Characters;
+using TestGame.Enemies;
 using TestGame.Input;
 using TestGame.Levels;
 using static System.Net.Mime.MediaTypeNames;
@@ -24,11 +25,19 @@ namespace TestGame.States
         //private bool heroOnGround = false;
         //private int groundLevel = 0;
         private LevelTest levelMap;
+
+        public Boolean IsDead { get; set; }
+
+        public Game1 Game { get; set; }
+        public GraphicsDevice Graphics { get; set; }
+        public ContentManager Content { get; set; }
+
+
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             //Hero sheep = new Hero(content.Load<Texture2D>("sheep"), new KeyboardReader(), graphicsDevice);
             //hero = sheep;
-            LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice, content.Load<Texture2D>("sheep"), new KeyboardReader());
+            LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice, content.Load<Texture2D>("sheep"), new KeyboardReader(), content);
             levelMap = level;
             hero = level.Hero;
 
@@ -38,6 +47,12 @@ namespace TestGame.States
                 hero,
 
             };
+
+            Game = game;
+            Graphics = graphicsDevice;
+            Content = content;
+
+            IsDead = false;
         }
 
         public override void Draw(SpriteBatch spritebatch)
@@ -51,9 +66,13 @@ namespace TestGame.States
 
             spritebatch.End();
         }
-
+        
         public override void PostUpdate(GameTime gametime)
         {
+            if (IsDead)
+            {
+                Game.ChangeState(new GameOverState(Game, Graphics, Content));
+            }
         }
 
         public override void Update(GameTime gametime)
@@ -87,6 +106,27 @@ namespace TestGame.States
                             {
                                 intersects = true;
                             }
+                        }
+                    }
+
+                    foreach (Prikkeldraad prik in levelMap.Prikkeldraden)
+                    {
+                        if (prik.Positie.HitboxRectangle.Intersects(hero.NextPositie.HitboxRectangle)) {
+                            //check of het langs de zijkant is
+                            if (prik.Positie.HitboxRectangle.Left < hero.NextPositie.HitboxRectangle.Right)
+                            {
+                                //prikkeldraad wordt langs links benaderd
+                                IsDead = true;
+
+                            } else if (prik.Positie.HitboxRectangle.Right > hero.NextPositie.HitboxRectangle.Left)
+                            {
+                                //prikkeldraad wordt langs rechts benaderd
+                                IsDead = true;
+                            } else
+                            {
+                                //langs boven of onder
+                            }
+                           
                         }
                     }
 
