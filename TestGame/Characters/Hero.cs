@@ -14,11 +14,12 @@ using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using TestGame.Blocks;
+using TestGame.Collision;
 using TestGame.Input;
 
 namespace TestGame.Characters
 {
-    internal class Hero : IGameObject  //, IMovable
+    internal class Hero : IGameObject, IMovingObject  //, IMovable
     {
         //private Texture2D _texture;
         public Texture2D Texture { get; set; }
@@ -184,13 +185,13 @@ namespace TestGame.Characters
             NextPositie.Richting = Richting.Idle;
             NextPositie.Positie = CurrentPositie.Positie;
             UpdateHitbox();
-            NextPositie = CurrentPositie;
+            //NextPositie = CurrentPositie;
             //Animation.InitialUpdate(CurrentPositie.Richting);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green);
+            spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green);
             
             
             //spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0) ;
@@ -203,13 +204,13 @@ namespace TestGame.Characters
 
         public void UpdateWithoutPositionRetrieve(GameTime gameTime)
         {
+            UpdateHitbox();
 
             //Move();
             Animation.Update(gameTime, CurrentPositie.Richting, 4, 9);
 
             //MoveOld();   //moved het vanzelf
 
-            UpdateHitbox();
 
             //HitboxPosition = new Vector2((int)positie.X + 40, (int)positie.Y + 40);
         }
@@ -221,9 +222,12 @@ namespace TestGame.Characters
 
             GetNextPosition();  //nextPosition is nu correct ingesteld
 
-            
+
+            //hitbox
+            UpdateHitbox();
+
             //screen size
-            if (NextPositie.Positie.X > 800 - 88 || NextPositie.Positie.X < 0 - 40)
+            /*if (NextPositie.Positie.X > 800|| NextPositie.Positie.X < 0)
             {
                 //Positie.X = OldPosition.X;
                 NextPositie.Positie = new Vector2(CurrentPositie.Positie.X, NextPositie.Positie.Y);
@@ -231,13 +235,13 @@ namespace TestGame.Characters
             }
 
             //screen size
-            if (CurrentPositie.Positie.Y > 480 - 88 || CurrentPositie.Positie.Y < 0 - 40)
+            if (CurrentPositie.Positie.Y > 480 || CurrentPositie.Positie.Y < 0 )
             {
                 //Positie.Y = OldPosition.Y;
                 CurrentPositie.Positie = new Vector2(NextPositie.Positie.X, CurrentPositie.Positie.Y);
                 //versnelling *= -1;
             }
-
+            */
             Animation.Update(gameTime, NextPositie.Richting, 4, 9);
 
 
@@ -490,8 +494,6 @@ namespace TestGame.Characters
             
             #endregion
 
-            //hitbox
-            UpdateHitbox();
 
         }
 

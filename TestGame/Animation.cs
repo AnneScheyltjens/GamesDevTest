@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace TestGame
 {
 
-    enum Richting {Up, Left, Down, Right, Idle}
+    public enum Richting {Up, Left, Down, Right, Idle}
 
     internal class Animation
     {

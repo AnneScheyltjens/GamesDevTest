@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestGame.Blocks;
 using TestGame.Characters;
+using TestGame.Collision;
 using TestGame.Enemies;
 using TestGame.Input;
 using TestGame.Levels;
@@ -32,6 +33,8 @@ namespace TestGame.States
         public GraphicsDevice Graphics { get; set; }
         public ContentManager Content { get; set; }
 
+        private List<IGameObject> dingenInGame { get; set; }
+
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
@@ -41,12 +44,16 @@ namespace TestGame.States
             levelMap = level;
             hero = level.Hero;
 
-            _gameObjects = new List<IGameObject>()
+            /*_gameObjects = new List<IGameObject>()
             {
                 level,
                 hero,
 
-            };
+            };*/
+
+            dingenInGame = new List<IGameObject>();
+            addGameObjectsToList();
+         
 
             Game = game;
             Graphics = graphicsDevice;
@@ -55,14 +62,32 @@ namespace TestGame.States
             IsDead = false;
         }
 
+        private void addGameObjectsToList()
+        {
+            dingenInGame.Add(levelMap.Hero);
+            foreach (Block blok in levelMap.Blocks)
+            {
+                dingenInGame.Add(blok);
+            }
+            foreach (Prikkeldraad prik in levelMap.Prikkeldraden)
+            {
+                dingenInGame.Add(prik);
+            }
+            foreach (Wolf wolf in levelMap.Wolven)
+            {
+                dingenInGame.Add(wolf);
+            }
+        }
+
         public override void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Begin();
 
-            foreach (IGameObject gameObject in _gameObjects)
+            /*foreach (IGameObject gameObject in dingenInGame)
             {
                 gameObject.Draw(spritebatch);
-            }
+            }*/
+            levelMap.Draw(spritebatch);
 
             spritebatch.End();
         }
@@ -75,7 +100,7 @@ namespace TestGame.States
             }
         }
 
-        public override void Update(GameTime gametime)
+        public void UpdateOld(GameTime gametime)
         {
             foreach (IGameObject gameObject in _gameObjects)
             {
@@ -137,9 +162,13 @@ namespace TestGame.States
                         if (walkOnGround)
                         {
                             //adjust to walk on ground
-                            hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X,
+                            /*hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X,
                                  groundLevel - 3 - (2*hero.NextPositie.HitboxRectangle.Height)); // - hero.NextPositie.Positie.Y);
-                            hero.UpdateWithoutPositionRetrieve(gametime);
+                            hero.UpdateWithoutPositionRetrieve(gametime);*/
+
+
+                            //heroOnGround(groundLevel, gametime);
+                            OnGround(hero, groundLevel, gametime);
                         }
 
                         //  move to next position
@@ -156,6 +185,89 @@ namespace TestGame.States
 
                 
                 
+            }
+        }
+
+        public void OnGround(IMovingObject col, int groundLevel, GameTime gametime)
+        {
+            //adjust to walk on ground
+            if (col is Hero)
+            {
+                Hero hero = col as Hero;
+                hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X, 
+                    groundLevel - 3 - (2 * hero.NextPositie.HitboxRectangle.Height)); // - hero.NextPositie.Positie.Y);
+                hero.UpdateWithoutPositionRetrieve(gametime);
+            } else if (col is Wolf)
+            {
+                Wolf wolf = col as Wolf;
+                wolf.NextPositie.Positie = new Vector2(wolf.NextPositie.Positie.X + wolf.GoesRight,
+                    groundLevel - (1.5f * col.NextPositie.HitboxRectangle.Height));
+                hero.UpdateWithoutPositionRetrieve(gametime);
+            }
+            
+        }
+
+        public override void Update(GameTime gametime)
+        {
+            foreach (IGameObject gameObject in dingenInGame)
+            {
+                gameObject.Update(gametime);
+
+                List<IGameObject> collidesWith;
+
+                if (gameObject is IMovingObject)
+                {
+                    IMovingObject col = gameObject as IMovingObject;
+
+                    collidesWith = Collidable.IntersectsWith(col, dingenInGame);
+
+                    if (collidesWith.Count != 0)
+                    {
+                        List<Block> bloks = new List<Block>();
+                        int groundLevel = 0;
+                        //it intersects with something
+                        foreach (IGameObject ding in collidesWith)
+                        {
+                            if (ding is Prikkeldraad && col is Hero)
+                            {
+                                IsDead = true;
+                                return;
+                            }
+                            else if (ding is Prikkeldraad && col is Wolf)
+                            {
+                                Wolf wolf = col as Wolf;
+                                wolf.GoesRight *= -1;
+                            }
+                            else if (ding is Block)
+                            {
+                                bloks.Add(ding as Block);
+                            } 
+                        }
+
+                        if (bloks.Count != 0)
+                        {
+                            groundLevel = Collidable.WalksOnGround(col, bloks);
+                        }
+
+                        if (groundLevel != 0)
+                        {
+                            OnGround(col, groundLevel, gametime);
+                            col.CurrentPositie = col.NextPositie;
+
+                        }/* else if (groundLevel != 0)
+                        {
+                            IGameObject ding = col as IGameObject;
+                            ding.Update(gametime);
+                            IMovingObject colli = ding as IMovingObject;
+                            colli.CurrentPositie = colli.NextPositie;
+                        }*/
+                    } else
+                    {
+                        col.CurrentPositie = col.NextPositie;
+                    }
+                }
+
+
             }
         }
     }

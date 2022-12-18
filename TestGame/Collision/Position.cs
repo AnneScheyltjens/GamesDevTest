@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestGame
+namespace TestGame.Collision
 {
-    internal class Position
+    public class Position
     {
         public Vector2 Positie { get; set; }
         public Richting Richting { get; set; }

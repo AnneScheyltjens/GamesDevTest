@@ -138,6 +138,8 @@ namespace TestGame.Levels
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            Hero.Draw(spriteBatch);
+
             foreach (Block block in Blocks)
             {
                 block.Draw(spriteBatch);
@@ -154,7 +156,7 @@ namespace TestGame.Levels
 
         public void Update(GameTime gameTime)
         {
-            foreach (Wolf wolf in Wolven)
+            /*foreach (Wolf wolf in Wolven)
             {
                 bool intersects = false;
                 foreach(Prikkeldraad prik in Prikkeldraden)
@@ -193,7 +195,7 @@ namespace TestGame.Levels
                 }
                 
                 wolf.Update(gameTime);
-            }
+            }*/
         }
     }
 }
