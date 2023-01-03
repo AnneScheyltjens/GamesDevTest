@@ -26,6 +26,7 @@ namespace TestGame.Characters
         private int schuifOp_X = 0;
         private int schuifOp_Y = 0;
 
+
         //private Animation animation;
 
         public Animation Animation { get; set; }
@@ -64,6 +65,8 @@ namespace TestGame.Characters
 
         public int YBeweging { get; set; }
         public int Gravity { get; set; }
+        public int AmountOfJumps { get; set; }
+
 
         //old, but needed for new
         //public Vector2 Positie { get; set; }
@@ -109,12 +112,14 @@ namespace TestGame.Characters
 
         public Hero(Texture2D texture, IInputReader inputReader, GraphicsDevice graphics, Vector2 beginPositie)
         {
+            
             Texture = texture;
             hitbox = new Texture2D(graphics, 1, 1);
             hitbox.SetData(new[] { Color.White });
 
             YBeweging = -1;
             Gravity = 2;
+            AmountOfJumps = 0;
 
             CurrentPositie = new Position();
             NextPositie = new Position();
@@ -222,6 +227,7 @@ namespace TestGame.Characters
 
             GetNextPosition();  //nextPosition is nu correct ingesteld
 
+            
 
             //hitbox
             UpdateHitbox();

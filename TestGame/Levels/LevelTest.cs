@@ -31,8 +31,8 @@ namespace TestGame.Levels
             {1,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0 ,0,0,0,0,0,0,0,1},
             {1,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0 ,0,0,0,0,0,0,0,1},
             {1,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0 ,0,0,0,0,0,0,0,1},*/
-            {3,0,0,6,0,0,0,0 /*,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0*/ /*,0,0,0,0*/,0,0,0,2},
-            {3,0,0,0,0,0,0,12 /*,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0*/ /*,0,0,0,0*/,0,10,0,2},
+            {3,11,0,6,0,0,0,0 /*,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0*/ /*,0,0,0,0*/,0,0,0,2},
+            {3,0,0,0,0,0,0,12 /*,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0*/ /*,0,0,0,0*/,0,10,12,2},
             {1,1,1,1,1,1,1,1 /*,1,1,1,1,1,1,1,1 ,1,1,1,1,1,1*/ /*,1,1,1,1*/,1,1,1,1}
         };
 
@@ -42,6 +42,7 @@ namespace TestGame.Levels
         public List<Prikkeldraad> Prikkeldraden { get; set; }
 
         public List<Wolf> Wolven { get; set; }
+        public List<Farmer> Farmers { get; set; }
 
         public Hero Hero { get; set; }
         public Texture2D PrikkeldraadTexture { get; set; }
@@ -68,6 +69,7 @@ namespace TestGame.Levels
             PrikkeldraadTexture = content.Load<Texture2D>("PrikkeldraadEchtScaled2");
             Prikkeldraden = new List<Prikkeldraad>();
             Wolven = new List<Wolf>();
+            Farmers = new List<Farmer>();
             //map de blok textures op een getal
             //beginent vanaf 0
 
@@ -113,7 +115,13 @@ namespace TestGame.Levels
                             Wolf wolf = new Wolf(content.Load<Texture2D>("wolvenEcht"), Graphics, positie);
                             Wolven.Add(wolf);
                         }
-                        else
+                        else if (gameboard[r,c] == 11)
+                        {
+                            //11 is farmer
+                            Vector2 positie = new Vector2(c * 64, (r * 64)-4);
+                            Farmer farmer = new Farmer(content.Load<Texture2D>("farmer6"), Graphics, positie, Richting.Right, content.Load<Texture2D>("bullet"));
+                            Farmers.Add(farmer);
+                        } else
                         {
                             //er moet een blokje staan
 
@@ -151,6 +159,10 @@ namespace TestGame.Levels
             foreach (Wolf wolf in Wolven)
             {
                 wolf.Draw(spriteBatch);
+            }
+            foreach (Farmer farmer in Farmers)
+            {
+                farmer.Draw(spriteBatch);
             }
         }
 

@@ -14,101 +14,110 @@ namespace TestGame.Collision
     {
         public static List<IGameObject> IntersectsWith(IMovingObject mainObject, List<IGameObject> toCollideWith)
     {
-        bool intersects = false;
-        bool IsDead = false;
-        List<IGameObject> collides = new List<IGameObject>();
+            bool intersects = false;
+            bool IsDead = false;
+            List<IGameObject> collides = new List<IGameObject>();
 
-        foreach (IGameObject col in toCollideWith)
-        {
-            if (mainObject.GetType == col.GetType)
+            foreach (IGameObject col in toCollideWith)
             {
-                //skip
-                //geen collision checken met jezelf
-            } else if (col is Block)
-            {
-                Block blok = col as Block;
-
-                if (mainObject.NextPositie.HitboxRectangle.Intersects(blok.Hitbox))
+                if (mainObject.GetType == col.GetType)
                 {
-                    //intersects = true;
-                    collides.Add(blok);
-                    //intersects
-                    /*if (mainObject.NextPositie.HitboxRectangle.Bottom == blok.Hitbox.Top ||
-                        mainObject.NextPositie.HitboxRectangle.Bottom == blok.Hitbox.Top + 1)
+                    //skip
+                    //geen collision checken met (het type van) jezelf
+                } else if (col is Block)
+                {
+                    Block blok = col as Block;
+
+                    if (mainObject.NextPositie.HitboxRectangle.Intersects(blok.Hitbox))
                     {
-                        //wandel op de vloer
-                        //walkOnGround = true;
-                        //groundLevel = blok.Hitbox.Top;
+                        //intersects = true;
+                        collides.Add(blok);
+                        //intersects
+                        /*if (mainObject.NextPositie.HitboxRectangle.Bottom == blok.Hitbox.Top ||
+                            mainObject.NextPositie.HitboxRectangle.Bottom == blok.Hitbox.Top + 1)
+                        {
+                            //wandel op de vloer
+                            //walkOnGround = true;
+                            //groundLevel = blok.Hitbox.Top;
+                        }
+                        else
+                        {
+                            intersects = true;
+                        }*/
                     }
-                    else
-                    {
-                        intersects = true;
-                    }*/
-                }
-            } else if (col is Prikkeldraad)
-            {
-                Prikkeldraad prik = col as Prikkeldraad;
-
-                if (prik.Positie.HitboxRectangle.Intersects(mainObject.NextPositie.HitboxRectangle))
+                } else if (col is Prikkeldraad)
                 {
-                    if (prik.Positie.HitboxRectangle.Left < mainObject.NextPositie.HitboxRectangle.Right)
+                    Prikkeldraad prik = col as Prikkeldraad;
+
+                    if (prik.Positie.HitboxRectangle.Intersects(mainObject.NextPositie.HitboxRectangle))
+                    {
+                        if (prik.Positie.HitboxRectangle.Left < mainObject.NextPositie.HitboxRectangle.Right)
+                        {
+                            //IsDead = true;
+                            collides.Add(prik);
+                        } else if (prik.Positie.HitboxRectangle.Right > mainObject.NextPositie.HitboxRectangle.Left)
+                        {
+                            //IsDead = true;
+                            collides.Add(prik);
+                        } else
+                        {
+                            //langs boven
+                        }
+                    }
+
+                } else if (col is Wolf && mainObject is Hero)
+                {
+                    Wolf wolf = col as Wolf;
+                    
+                    if (wolf.CurrentPositie.HitboxRectangle.Intersects(mainObject.NextPositie.HitboxRectangle))
                     {
                         //IsDead = true;
-                        collides.Add(prik);
-                    } else if (prik.Positie.HitboxRectangle.Right > mainObject.NextPositie.HitboxRectangle.Left)
-                    {
-                        //IsDead = true;
-                        collides.Add(prik);
-                    } else
-                    {
-                        //langs boven
+                        collides.Add(wolf);
                     }
                 }
+
 
             }
-
-
-        }
-        return collides;
+            return collides;
     }
 
-    public static int WalksOnGround(IMovingObject mainObject, List<Block> toCollideWith)
-    {
-        bool walkOnGround = false;
-        int groundLevel = 0;
-
-        foreach (Block col in toCollideWith)
+        public static int WalksOnGround(IMovingObject mainObject, List<Block> toCollideWith)
         {
+            bool walkOnGround = false;
+            int groundLevel = 0;
+
+            foreach (Block col in toCollideWith)
+            {
            
-                if (mainObject.NextPositie.HitboxRectangle.Intersects(col.Hitbox))
-                {
-                    if (mainObject is Hero)
+                    if (mainObject.NextPositie.HitboxRectangle.Intersects(col.Hitbox))
                     {
-                        //intersects
-                        if (mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top ||
-                            mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top + 1)
+                        if (mainObject is Hero)
                         {
-                            //wandel op de vloer
-                            walkOnGround = true;
-                            groundLevel = col.Hitbox.Top;
-                        }
-                    } else if (mainObject is Wolf)
-                    {
-                        if (mainObject.NextPositie.HitboxRectangle.Bottom > col.Hitbox.Top)
+                            //intersects
+                            if (mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top ||
+                                mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top + 1)
+                            {
+                                //wandel op de vloer
+                                walkOnGround = true;
+                                groundLevel = col.Hitbox.Top;
+                            }
+                        } else if (mainObject is Wolf)
                         {
-                            //wandel op de vloer
-                            walkOnGround = true;
-                            groundLevel = col.Hitbox.Top;
+                            if (mainObject.NextPositie.HitboxRectangle.Bottom > col.Hitbox.Top)
+                            {
+                                //wandel op de vloer
+                                walkOnGround = true;
+                                groundLevel = col.Hitbox.Top;
+                            }
                         }
-                    }
                     
-                }
+                    }
             
 
+            }
+            return groundLevel;
         }
-        return groundLevel;
-    }
 
 
-    }
+        }
 }

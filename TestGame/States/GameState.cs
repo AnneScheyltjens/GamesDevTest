@@ -35,6 +35,8 @@ namespace TestGame.States
 
         private List<IGameObject> dingenInGame { get; set; }
 
+        private List<Bullet> ActiveBullets { get; set; }
+
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
@@ -76,6 +78,16 @@ namespace TestGame.States
             foreach (Wolf wolf in levelMap.Wolven)
             {
                 dingenInGame.Add(wolf);
+            }
+            foreach (Farmer farmer in levelMap.Farmers)
+            {
+                dingenInGame.Add(farmer);
+            }
+
+            checkBullets();
+            foreach (Bullet bullet in ActiveBullets)
+            {
+                dingenInGame.Add(bullet);
             }
         }
 
@@ -207,13 +219,41 @@ namespace TestGame.States
             
         }
 
+        private void checkBullets()
+        {
+            List<Bullet> activeBullets = new List<Bullet>();
+            foreach (Farmer farmer in levelMap.Farmers)
+            {
+                foreach (Bullet bullet in farmer.Bullets)
+                {
+                    activeBullets.Add(bullet);
+                }
+            }
+
+            ActiveBullets = activeBullets;
+        }
+
         public override void Update(GameTime gametime)
         {
+            checkBullets();
             foreach (IGameObject gameObject in dingenInGame)
             {
                 gameObject.Update(gametime);
 
                 List<IGameObject> collidesWith;
+
+                if (gameObject is Hero)
+                {
+                    foreach (Bullet bullet in ActiveBullets)
+                    {
+                        if (bullet.CurrentPositie.HitboxRectangle.Intersects(hero.NextPositie.HitboxRectangle))
+                        {
+                            IsDead = true;
+                            return;
+                            //Debug.WriteLine("Bullet raakt hero!");
+                        }
+                    }
+                }
 
                 if (gameObject is IMovingObject)
                 {
@@ -237,6 +277,10 @@ namespace TestGame.States
                             {
                                 Wolf wolf = col as Wolf;
                                 wolf.GoesRight *= -1;
+                            } else if (col is Hero && ding is Wolf)
+                            {
+                                IsDead = true;
+                                return;
                             }
                             else if (ding is Block)
                             {
