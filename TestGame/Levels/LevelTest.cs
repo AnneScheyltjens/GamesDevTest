@@ -37,13 +37,13 @@ namespace TestGame.Levels
             {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
             {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
             {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+            {3,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
             {3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,1,0,1,1,1,2},
             {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,2},
             {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,2},
             {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,2},
             {3,11,0,6,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,1,0,12,0,0,0,0,0,0,0,1,1,0,0,0,12,0,0,0,0,0,0,10,12,2},
+            {3,0,0,0,0,0,0,12,0,0,0,0,0,0,0,1,1,0,0,0,12,0,0,0,0,0,0,10,12,2},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
         //private List<Block> blocks = new List<Block>();
@@ -131,7 +131,16 @@ namespace TestGame.Levels
                             Vector2 positie = new Vector2(c * 64, (r * 64)-4);
                             Farmer farmer = new Farmer(content.Load<Texture2D>("farmer6"), Graphics, positie, Richting.Right, content.Load<Texture2D>("bullet"));
                             Farmers.Add(farmer);
-                        } else
+                        } else if (gameboard[r,c] == 9)
+                        {
+                            //9 is grass
+                            Vector2 positie = new Vector2(c * 64, r * 64);
+                            Rectangle rectangle = new Rectangle(0, 0, 137, 77);
+                            //Block grass = new Block(content.Load<Texture2D>("grass5"), positie, rectangle, 0.1f, Graphics, true);
+                            Block grass = new Block(content.Load<Texture2D>("grass3"), positie, rectangle, 1, Graphics, true);
+                            Blocks.Add(grass);
+                        } 
+                        else
                         {
                             //er moet een blokje staan
 
@@ -156,7 +165,7 @@ namespace TestGame.Levels
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Hero.Draw(spriteBatch);
+            
 
             foreach (Block block in Blocks)
             {
@@ -174,6 +183,8 @@ namespace TestGame.Levels
             {
                 farmer.Draw(spriteBatch);
             }
+
+            Hero.Draw(spriteBatch);
         }
 
         public void Update(GameTime gameTime)

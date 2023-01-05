@@ -19,9 +19,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace TestGame.States
 {
 
-    // de button classe en de baics van de states heb ik overgenomen van deze youtube video's
-    // https://www.youtube.com/watch?v=lcrgj26G5Hg
-    // https://www.youtube.com/watch?v=76Mz7ClJLoE
+    
     public class GameState : State
     {
         private List<IGameObject> _gameObjects;
@@ -31,7 +29,8 @@ namespace TestGame.States
         //private int groundLevel = 0;
         private LevelTest levelMap;
 
-        public Boolean IsDead { get; set; }
+        public bool IsDead { get; set; }
+        public bool LevelDone { get; set; }
 
         public Game1 Game { get; set; }
         public GraphicsDevice Graphics { get; set; }
@@ -41,14 +40,26 @@ namespace TestGame.States
 
         private List<Bullet> ActiveBullets { get; set; }
 
+        public bool LevelOneToPlay { get; set; }
 
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool levelOne = true) : base(game, graphicsDevice, content)
         {
+            LevelOneToPlay = levelOne;
+            if (LevelOneToPlay)
+            {
+                //hero = sheep;
+                LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice, content.Load<Texture2D>("sheep"), new KeyboardReader(), content);
+                levelMap = level;
+                hero = level.Hero;
+            } else
+            {
+                //other level
+                //ook nog aanpassen
+            }
             //Hero sheep = new Hero(content.Load<Texture2D>("sheep"), new KeyboardReader(), graphicsDevice);
-            //hero = sheep;
-            LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice, content.Load<Texture2D>("sheep"), new KeyboardReader(), content);
-            levelMap = level;
-            hero = level.Hero;
+            
+
+            
 
             /*_gameObjects = new List<IGameObject>()
             {
@@ -66,11 +77,11 @@ namespace TestGame.States
             Content = content;
 
             IsDead = false;
+            LevelDone = false;
         }
 
         private void addGameObjectsToList()
         {
-            dingenInGame.Add(levelMap.Hero);
             foreach (Block blok in levelMap.Blocks)
             {
                 dingenInGame.Add(blok);
@@ -93,6 +104,9 @@ namespace TestGame.States
             {
                 dingenInGame.Add(bullet);
             }
+
+            dingenInGame.Add(levelMap.Hero);
+
         }
 
         public override void Draw(SpriteBatch spritebatch)
@@ -110,8 +124,30 @@ namespace TestGame.States
         
         public override void PostUpdate(GameTime gametime)
         {
-            if (levelMap.Hero.HasBeenHit)
+            if (LevelDone)
             {
+
+                Game.ChangeState(new LevelCompleteState(Game, Graphics, Content));
+                return;
+            }
+
+            if (levelMap.Hero.NrOfLivesLeft <= 0)
+            {
+                IsDead = true;
+            }
+
+            if (IsDead)
+            {
+                Game.ChangeState(new GameOverState(Game, Graphics, Content));
+                return;
+            }
+
+            if (levelMap.Hero.HasBeenHit)
+            { 
+                if (levelMap.Hero.NotTakingDamagaTime == 100)
+                {
+                    levelMap.Hero.Lives.ElementAt(levelMap.Hero.NrOfLivesLeft-1).Update(gametime);
+                }
                 levelMap.Hero.NotTakingDamagaTime -= 1;
 
             }
@@ -121,15 +157,7 @@ namespace TestGame.States
                 levelMap.Hero.HasBeenHit = false;
             }
 
-            if (levelMap.Hero.NrOfLivesLeft <= 0)
-            {
-                IsDead = true;
-            } 
-
-            if (IsDead)
-            {
-                Game.ChangeState(new GameOverState(Game, Graphics, Content));
-            }
+            
 
             
         }
@@ -256,12 +284,15 @@ namespace TestGame.States
             ActiveBullets = activeBullets;
         }
 
+        private void CheckLives()
+        {
+
+        }
+
         public override void Update(GameTime gametime)
         {
             
             checkBullets();
-
-           
 
 
             foreach (IGameObject gameObject in dingenInGame)
@@ -344,6 +375,13 @@ namespace TestGame.States
                             }
                             else if (ding is Block)
                             {
+                                Block blok = ding as Block;
+
+                                if (col is Hero && blok.IsGrass)
+                                {
+                                    LevelDone = true;
+                                    return;
+                                }
                                 bloks.Add(ding as Block);
                             } 
                         }

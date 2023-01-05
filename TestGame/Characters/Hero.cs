@@ -48,7 +48,6 @@ namespace TestGame.Characters
         public Position NextPositie { get; set; }
 
 
-        public int NrOfLivesLeft { get; set; }
 
 
         private Texture2D hitbox;
@@ -67,8 +66,11 @@ namespace TestGame.Characters
         public int YBeweging { get; set; }
         public int Gravity { get; set; }
         public int AmountOfJumps { get; set; }
-
         public bool OnGround { get; set; }
+
+
+        public int NrOfLivesLeft { get; set; }
+        public List<Live> Lives { get; set; }
         public bool HasBeenHit { get; set; }
         public int NotTakingDamagaTime { get; set; }
         public bool Showing { get; set; }
@@ -126,7 +128,13 @@ namespace TestGame.Characters
             YBeweging = -1;
             Gravity = 2;
             AmountOfJumps = 0;
-            NrOfLivesLeft = 3;
+            NrOfLivesLeft = 4;
+            Lives = new List<Live>();
+
+            for (int i = NrOfLivesLeft-1; i > 0; i--)
+            {
+                Lives.Add(new Live(Texture, new Vector2(1700 + (i * 30), 40)));
+            }
 
             CurrentPositie = new Position();
             NextPositie = new Position();
@@ -207,7 +215,13 @@ namespace TestGame.Characters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green);
+            foreach (Live live in Lives)
+            {
+                live.Draw(spriteBatch);
+            }
+
+
+            //spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green);
 
             if (NotTakingDamagaTime % 2 == 0)
             {

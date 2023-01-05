@@ -57,7 +57,7 @@ namespace TestGame.Enemies
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(HitboxTexture, Positie.HitboxPositie, Positie.HitboxRectangle, Color.OrangeRed, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
+            //spriteBatch.Draw(HitboxTexture, Positie.HitboxPositie, Positie.HitboxRectangle, Color.OrangeRed, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
             //spriteBatch.Draw(Texture, CurrentPosition.Positie, Animation.CurrentFrame.SourceRectangle, Color.White);
             spriteBatch.Draw(Texture, Positie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
 
