@@ -49,7 +49,7 @@ namespace TestGame
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             _graphics.HardwareModeSwitch = true;
-            //_graphics.ApplyChanges();
+            _graphics.ApplyChanges();
 
 
            

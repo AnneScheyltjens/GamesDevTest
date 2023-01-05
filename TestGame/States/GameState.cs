@@ -18,6 +18,10 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TestGame.States
 {
+
+    // de button classe en de baics van de states heb ik overgenomen van deze youtube video's
+    // https://www.youtube.com/watch?v=lcrgj26G5Hg
+    // https://www.youtube.com/watch?v=76Mz7ClJLoE
     public class GameState : State
     {
         private List<IGameObject> _gameObjects;
@@ -106,10 +110,28 @@ namespace TestGame.States
         
         public override void PostUpdate(GameTime gametime)
         {
+            if (levelMap.Hero.HasBeenHit)
+            {
+                levelMap.Hero.NotTakingDamagaTime -= 1;
+
+            }
+
+            if (levelMap.Hero.NotTakingDamagaTime <= 0)
+            {
+                levelMap.Hero.HasBeenHit = false;
+            }
+
+            if (levelMap.Hero.NrOfLivesLeft <= 0)
+            {
+                IsDead = true;
+            } 
+
             if (IsDead)
             {
                 Game.ChangeState(new GameOverState(Game, Graphics, Content));
             }
+
+            
         }
 
         public void UpdateOld(GameTime gametime)
@@ -209,6 +231,7 @@ namespace TestGame.States
                 hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X, 
                     groundLevel - 3 - (2 * hero.NextPositie.HitboxRectangle.Height)); // - hero.NextPositie.Positie.Y);
                 hero.UpdateWithoutPositionRetrieve(gametime);
+                hero.OnGround = true;
             } else if (col is Wolf)
             {
                 Wolf wolf = col as Wolf;
@@ -235,7 +258,12 @@ namespace TestGame.States
 
         public override void Update(GameTime gametime)
         {
+            
             checkBullets();
+
+           
+
+
             foreach (IGameObject gameObject in dingenInGame)
             {
                 gameObject.Update(gametime);
@@ -248,9 +276,17 @@ namespace TestGame.States
                     {
                         if (bullet.CurrentPositie.HitboxRectangle.Intersects(hero.NextPositie.HitboxRectangle))
                         {
-                            IsDead = true;
-                            return;
-                            //Debug.WriteLine("Bullet raakt hero!");
+                            Hero hero = gameObject as Hero;
+                            if (!hero.HasBeenHit)
+                            {
+                                hero.NrOfLivesLeft -= 1;
+                                hero.HasBeenHit = true;
+                                hero.NotTakingDamagaTime = 100;
+                                //IsDead = true;
+                                Debug.WriteLine("Bullet raakt hero!");
+                                return;
+                            }
+                            
                         }
                     }
                 }
@@ -270,8 +306,22 @@ namespace TestGame.States
                         {
                             if (ding is Prikkeldraad && col is Hero)
                             {
-                                IsDead = true;
-                                return;
+                                Hero hero = col as Hero;
+                                //Debug.WriteLine(hero.NotTakingDamagaTime);
+
+                                if (!hero.HasBeenHit)
+                                {
+                                    hero.NrOfLivesLeft -= 1;
+                                    hero.NotTakingDamagaTime = 100;
+                                    hero.HasBeenHit = true;
+                                    //IsDead = true;
+                                    //Debug.WriteLine(hero.NotTakingDamagaTime);
+
+                                    Debug.WriteLine("Prikkeldraad raakt hero!");
+
+                                    return;
+                                }
+                                
                             }
                             else if (ding is Prikkeldraad && col is Wolf)
                             {
@@ -279,8 +329,18 @@ namespace TestGame.States
                                 wolf.GoesRight *= -1;
                             } else if (col is Hero && ding is Wolf)
                             {
-                                IsDead = true;
-                                return;
+                                //IsDead = true;
+                                Hero hero = col as Hero;
+                                if (!hero.HasBeenHit)
+                                {
+                                    hero.HasBeenHit = true;
+                                    hero.NrOfLivesLeft -= 1;
+                                    hero.NotTakingDamagaTime = 100;
+                                    Debug.WriteLine("Wolf raakt hero!");
+
+                                    return;
+                                }
+                                
                             }
                             else if (ding is Block)
                             {
@@ -297,6 +357,10 @@ namespace TestGame.States
                         {
                             OnGround(col, groundLevel, gametime);
                             col.CurrentPositie = col.NextPositie;
+                            if (col is Hero)
+                            {
+                                Hero hero = col as Hero;
+                            }
 
                         }/* else if (groundLevel != 0)
                         {
@@ -308,6 +372,11 @@ namespace TestGame.States
                     } else
                     {
                         col.CurrentPositie = col.NextPositie;
+                        if (col is Hero)
+                        {
+                            Hero hero = col as Hero;
+                            hero.OnGround = false;
+                        }
                     }
                 }
 

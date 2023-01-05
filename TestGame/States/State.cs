@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace TestGame.States
 {
+    // de button classe en de baics van de states heb ik overgenomen van deze youtube video's
+    // https://www.youtube.com/watch?v=lcrgj26G5Hg
+    // https://www.youtube.com/watch?v=76Mz7ClJLoE
     public abstract class State
     {
         #region Fields

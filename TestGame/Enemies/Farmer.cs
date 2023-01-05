@@ -39,7 +39,7 @@ namespace TestGame.Enemies
 
             HitboxBreedNr = new Vector2(90, 130);
             Bullets = new List<Bullet>();
-            Timinig = 10;
+            Timinig = 190;
 
             Positie = new Position();
             Positie.Positie = new Vector2(beginPositie.X, beginPositie.Y);
@@ -76,7 +76,7 @@ namespace TestGame.Enemies
             foreach (Bullet bullet in Bullets)
             {
                 bullet.Update(gameTime);
-                if (bullet.CurrentPositie.Positie.X > 800 || bullet.CurrentPositie.Positie.X < 0)
+                if (bullet.CurrentPositie.Positie.X > 2000 || bullet.CurrentPositie.Positie.X < 0)
                 {
                     bulletsToRemove.Add(bullet);
                 }

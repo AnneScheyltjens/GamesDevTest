@@ -48,6 +48,7 @@ namespace TestGame.Characters
         public Position NextPositie { get; set; }
 
 
+        public int NrOfLivesLeft { get; set; }
 
 
         private Texture2D hitbox;
@@ -66,6 +67,11 @@ namespace TestGame.Characters
         public int YBeweging { get; set; }
         public int Gravity { get; set; }
         public int AmountOfJumps { get; set; }
+
+        public bool OnGround { get; set; }
+        public bool HasBeenHit { get; set; }
+        public int NotTakingDamagaTime { get; set; }
+        public bool Showing { get; set; }
 
 
         //old, but needed for new
@@ -120,9 +126,14 @@ namespace TestGame.Characters
             YBeweging = -1;
             Gravity = 2;
             AmountOfJumps = 0;
+            NrOfLivesLeft = 3;
 
             CurrentPositie = new Position();
             NextPositie = new Position();
+            OnGround = true;    //is false, hero has jumped
+            HasBeenHit = false;
+            NotTakingDamagaTime = 0;
+            Showing = true;
 
             //old 
             //Positie = new Vector2(280, 280);
@@ -197,12 +208,31 @@ namespace TestGame.Characters
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green);
-            
-            
+
+            if (NotTakingDamagaTime % 2 == 0)
+            {
+                Showing = true;
+            } else
+            {
+                Showing = false;
+            }
+
             //spriteBatch.Draw(hitbox, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.Green, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0) ;
             //spriteBatch.Draw(Texture, positie, animation.CurrentFrame.SourceRectangle, Color.White);
-            
-            spriteBatch.Draw(Texture, CurrentPositie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0);
+
+            if (HasBeenHit && NotTakingDamagaTime > 0 && Showing)
+            {
+                spriteBatch.Draw(Texture, CurrentPositie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0);
+
+            }
+            else if (HasBeenHit && NotTakingDamagaTime > 0 && !Showing) { 
+                //nothing
+            }
+            else
+            {
+                spriteBatch.Draw(Texture, CurrentPositie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), scale, SpriteEffects.None, 0);
+
+            }
             //Debug.WriteLine(positie);
 
         }
@@ -438,7 +468,7 @@ namespace TestGame.Characters
 
             //check if on screen
             //screen size
-            if (NextPositie.Positie.X > 800 - 88 || NextPositie.Positie.X < 0 - 40)
+            /*if (NextPositie.Positie.X > 800 - 88 || NextPositie.Positie.X < 0 - 40)
             {
                 //Positie.X = OldPosition.X;
                 NextPositie.Positie = new Vector2(CurrentPositie.Positie.X, NextPositie.Positie.Y);
@@ -451,7 +481,7 @@ namespace TestGame.Characters
                 //Positie.Y = OldPosition.Y;
                 NextPositie.Positie = new Vector2(NextPositie.Positie.X, CurrentPositie.Positie.Y);
                 //versnelling *= -1;
-            }
+            }*/
 
             //richting
             if (CurrentPositie.Positie.X > NextPositie.Positie.X)
@@ -470,8 +500,17 @@ namespace TestGame.Characters
 
             if (NextPositie.Positie.Y < CurrentPositie.Positie.Y)
             {
-                //naar boven
-                NextPositie.Richting = Richting.Up;
+                if (OnGround)
+                {
+                    //naar boven
+                    NextPositie.Richting = Richting.Up;
+                } else
+                {
+                    NextPositie.Richting = Richting.Idle;
+                    NextPositie.Positie = CurrentPositie.Positie;
+                  
+                }
+                
             }
 
             if (CurrentPositie.Positie.Y < NextPositie.Positie.Y)
@@ -489,7 +528,7 @@ namespace TestGame.Characters
             if (NextPositie.Richting == Richting.Up)
             {
                 //spring
-                YBeweging = -5;
+                YBeweging = -17;    //moet oneven zijn
             }
             else if (YBeweging < 0)
             {
