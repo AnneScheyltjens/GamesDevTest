@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestGame.Levels;
 
 namespace TestGame.States
 {
@@ -22,6 +23,8 @@ namespace TestGame.States
 
         protected Game1 _game;
 
+        protected LevelSelectie _levelSelect;
+
         #endregion
 
         #region Methods
@@ -29,11 +32,12 @@ namespace TestGame.States
         public abstract void Draw(SpriteBatch spritebatch);
 
         public abstract void PostUpdate(GameTime gametime);
-        public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect)
         {
             _game = game;
             _graphicsDevice = graphicsDevice;
             _content = content;
+            _levelSelect = levelSelect;
         }
 
         public abstract void Update(GameTime gametime);

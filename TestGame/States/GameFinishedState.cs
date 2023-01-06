@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,31 +11,23 @@ using TestGame.Levels;
 
 namespace TestGame.States
 {
-    internal class GameOverState : State
+    internal class GameFinishedState : State
     {
+
         public SpriteFont Font { get; set; }
         public SpriteFont FontLarge { get; set; }
 
         public List<IGameObject> Buttons { get; set; }
-        public GameOverState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect)
+
+        public GameFinishedState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect) 
             : base(game, graphicsDevice, content, levelSelect)
         {
             var buttonTexture = content.Load<Texture2D>("Controls/Button");
             Font = content.Load<SpriteFont>("Fonts/FontNieuw");
             FontLarge = content.Load<SpriteFont>("Fonts/FontLargeNieuw");
-            
 
-            Button restartButton = new Button(buttonTexture, Font)
-            {
-                Position = new Vector2(888, 450),
-                Text = "Restart level"
-            };
-
-            restartButton.Click += restartButton_click;
 
             Buttons = new List<IGameObject>();
-
-            Buttons.Add(restartButton);
 
             Button quitGameButton = new Button(buttonTexture, Font)
             {
@@ -49,24 +40,34 @@ namespace TestGame.States
 
             Buttons.Add(quitGameButton);
 
-        }
+            Button menuButton = new Button(buttonTexture, Font)
+            {
+                Position = new Vector2(888, 450),
+                Text = "Menu",
 
-        private void restartButton_click(object sender, EventArgs e)
-        {
-            //load new state
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content, _levelSelect));
-        }
+            };
 
+            menuButton.Click += menuButton_click;
+
+            Buttons.Add(menuButton);
+
+
+        }
         private void quitGameButton_click(object sender, EventArgs e)
         {
             _game.Exit();
+        }
+
+        private void menuButton_click(object sender, EventArgs e)
+        {
+            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content, LevelSelectie.None));
         }
 
         public override void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Begin();
 
-            spritebatch.DrawString(FontLarge, "Game over", new Vector2(860, 200), Color.Red);
+            spritebatch.DrawString(FontLarge, "Game finished", new Vector2(828, 200), Color.Gold);
 
             foreach (var gameObject in Buttons)
             {

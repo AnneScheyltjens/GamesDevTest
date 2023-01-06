@@ -63,6 +63,20 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/FontLarge.spritefont
 
+#begin Fonts/FontLargeNieuw.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontLargeNieuw.spritefont
+
+#begin Fonts/FontNieuw.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontNieuw.spritefont
+
 #begin grass3.png
 /importer:TextureImporter
 /processor:TextureProcessor

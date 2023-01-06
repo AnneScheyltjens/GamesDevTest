@@ -63,10 +63,11 @@ namespace TestGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content);
-            //_currentState = new GameState(this, _graphics.GraphicsDevice, Content);
-            //_currentState = new GameOverState(this, _graphics.GraphicsDevice, Content);
-            //_currentState = new LevelCompleteState(this, _graphics.GraphicsDevice, Content);
+            //_currentState = new MenuState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
+            _currentState = new GameState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level2);
+            //_currentState = new GameOverState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level1);
+            //_currentState = new LevelCompleteState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level2);
+            //_currentState = new GameFinishedState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
 
 
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestGame.Controls;
+using TestGame.Levels;
 
 namespace TestGame.States
 {
@@ -18,11 +19,12 @@ namespace TestGame.States
         public List<IGameObject> Buttons { get; set; }
 
 
-        public LevelCompleteState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public LevelCompleteState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect)
+            : base(game, graphicsDevice, content, levelSelect)
         {
             var buttonTexture = content.Load<Texture2D>("Controls/Button");
-            Font = content.Load<SpriteFont>("Fonts/Font");
-            FontLarge = content.Load<SpriteFont>("Fonts/FontLarge");
+            Font = content.Load<SpriteFont>("Fonts/FontNieuw");
+            FontLarge = content.Load<SpriteFont>("Fonts/FontLargeNieuw");
 
 
             Buttons = new List<IGameObject>();
@@ -39,9 +41,23 @@ namespace TestGame.States
 
             Buttons.Add(replayLevel);
 
+            Button nextLevelButton = new Button(buttonTexture, Font)
+            {
+                //helft van 1916 = 985
+                Position = new Vector2(888, 450),
+                Text = "Next level",
+
+            };
+
+            nextLevelButton.Click += nextLevelButton_click;
+
+            Buttons.Add(nextLevelButton);
+
+
+
             Button quitGameButton = new Button(buttonTexture, Font)
             {
-                Position = new Vector2(888, 500),
+                Position = new Vector2(888, 525),
                 Text = "Quit",
 
             };
@@ -59,12 +75,20 @@ namespace TestGame.States
 
         private void replayLevelButton_click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new GameState(_game, _graphicsDevice, _content, _levelSelect));
         }
 
         private void nextLevelButton_click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content, false));
+            LevelSelectie nextLevel = (LevelSelectie)( (int)_levelSelect + 1);
+            if (nextLevel > LevelSelectie.Level2)
+            {
+                _game.ChangeState(new GameFinishedState(_game, _graphicsDevice, _content, LevelSelectie.None));
+            } else
+            {
+                _game.ChangeState(new GameState(_game, _graphicsDevice, _content, nextLevel));
+
+            }
         }
 
 
@@ -72,7 +96,7 @@ namespace TestGame.States
         {
             spritebatch.Begin();
 
-            spritebatch.DrawString(FontLarge, "Level complete", new Vector2(828, 100), Color.Gold);
+            spritebatch.DrawString(FontLarge, "Level complete", new Vector2(828, 200), Color.Gold);
 
             foreach (var gameObject in Buttons)
             {

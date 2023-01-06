@@ -18,7 +18,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TestGame.States
 {
-
+    
     
     public class GameState : State
     {
@@ -42,20 +42,25 @@ namespace TestGame.States
 
         public bool LevelOneToPlay { get; set; }
 
-        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool levelOne = true) : base(game, graphicsDevice, content)
+        public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect) 
+            : base(game, graphicsDevice, content, levelSelect)
         {
-            LevelOneToPlay = levelOne;
-            if (LevelOneToPlay)
-            {
+            //LevelOneToPlay = levelOne;
+            /*if (levelSelect == LevelSelectie.Level1)
+            {*/
                 //hero = sheep;
-                LevelTest level = new LevelTest(content.Load<Texture2D>("tileset"), 1, graphicsDevice, content.Load<Texture2D>("sheep"), new KeyboardReader(), content);
+                LevelTest level = new LevelTest(1, graphicsDevice, new KeyboardReader(), content, levelSelect);
                 levelMap = level;
                 hero = level.Hero;
-            } else
+            /*} else
             {
                 //other level
                 //ook nog aanpassen
-            }
+                LevelTest level = new LevelTest(1, graphicsDevice, new KeyboardReader(), content, LevelSelectie.Level2);
+                levelMap = level;
+                hero = level.Hero;
+
+            }*/
             //Hero sheep = new Hero(content.Load<Texture2D>("sheep"), new KeyboardReader(), graphicsDevice);
             
 
@@ -127,7 +132,7 @@ namespace TestGame.States
             if (LevelDone)
             {
 
-                Game.ChangeState(new LevelCompleteState(Game, Graphics, Content));
+                Game.ChangeState(new LevelCompleteState(Game, Graphics, Content, _levelSelect));
                 return;
             }
 
@@ -138,7 +143,7 @@ namespace TestGame.States
 
             if (IsDead)
             {
-                Game.ChangeState(new GameOverState(Game, Graphics, Content));
+                Game.ChangeState(new GameOverState(Game, Graphics, Content, _levelSelect));
                 return;
             }
 

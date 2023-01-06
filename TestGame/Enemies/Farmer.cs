@@ -59,8 +59,16 @@ namespace TestGame.Enemies
         {
             //spriteBatch.Draw(HitboxTexture, Positie.HitboxPositie, Positie.HitboxRectangle, Color.OrangeRed, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
             //spriteBatch.Draw(Texture, CurrentPosition.Positie, Animation.CurrentFrame.SourceRectangle, Color.White);
-            spriteBatch.Draw(Texture, Positie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
 
+
+            if (Positie.Richting == Richting.Right)
+            {
+                spriteBatch.Draw(Texture, Positie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
+            }else
+            {
+                spriteBatch.Draw(Texture, Positie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.FlipHorizontally, 0);
+
+            }
             foreach (Bullet bullet in Bullets)
             {
                 bullet.Draw(spriteBatch);
@@ -84,9 +92,17 @@ namespace TestGame.Enemies
 
             if (Timinig >= 200)
             {
-                Vector2 newPositie = new Vector2(Positie.Positie.X + HitboxBreedNr.X + 24,
-                    Positie.Positie.Y + (HitboxBreedNr.Y/2));
-                Bullets.Add(new Bullet(BulletTexture, Graphics, newPositie));
+                Vector2 newPositie = new Vector2();
+                if (Positie.Richting == Richting.Right)
+                {
+                    newPositie = new Vector2(Positie.Positie.X + HitboxBreedNr.X + 24,
+                        Positie.Positie.Y + (HitboxBreedNr.Y / 2));
+                } else
+                {
+                    newPositie = new Vector2(Positie.Positie.X,
+                        Positie.Positie.Y + (HitboxBreedNr.Y / 2));
+                }
+                Bullets.Add(new Bullet(BulletTexture, Graphics, newPositie, Positie.Richting));
                 Timinig = 0;
             }
 

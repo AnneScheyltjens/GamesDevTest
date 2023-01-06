@@ -38,7 +38,7 @@ namespace TestGame.Controls
 
         public Rectangle Rectangle { get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width+10, Texture.Height+10);
             } 
         }
         public string Text { get; set; }

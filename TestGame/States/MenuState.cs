@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestGame.Controls;
+using TestGame.Levels;
 
 namespace TestGame.States
 {
@@ -19,32 +20,33 @@ namespace TestGame.States
         private List<IGameObject> _gameObjects;
 
 
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect)
+            : base(game, graphicsDevice, content, levelSelect)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/Button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
+            var buttonFont = _content.Load<SpriteFont>("Fonts/FontNieuw");
 
-            Button newGameButton = new Button(buttonTexture, buttonFont)
+            Button level1Button = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(300, 200),
-                Text = "New game",
+                Position = new Vector2(888, 450),
+                Text = "Level 1",
                 
             };
 
-            newGameButton.Click += newGameButton_click;
+            level1Button.Click += level1Button_click;
 
-            Button loadGameButton = new Button(buttonTexture, buttonFont)
+            Button level2Button = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(300, 250),
-                Text = "Load game",
+                Position = new Vector2(888, 525),
+                Text = "Level 2",
 
             };
 
-            loadGameButton.Click += loadGameButton_click;
+            level2Button.Click += level2Button_click;
 
             Button quitGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(300, 300),
+                Position = new Vector2(888, 600),
                 Text = "Quit",
 
             };
@@ -53,8 +55,8 @@ namespace TestGame.States
 
             _gameObjects = new List<IGameObject>()
             {
-                newGameButton,
-                loadGameButton,
+                level1Button,
+                level2Button,
                 quitGameButton,
             };
         }
@@ -64,15 +66,16 @@ namespace TestGame.States
             _game.Exit();
         }
 
-        private void loadGameButton_click(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Load game");
-        }
-
-        private void newGameButton_click(object sender, EventArgs e)
+        private void level1Button_click(object sender, EventArgs e)
         {
             //load new state
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
+            _game.ChangeState(new GameState(_game, _graphicsDevice, _content, Levels.LevelSelectie.Level1));
+        }
+
+        private void level2Button_click(object sender, EventArgs e)
+        {
+            //Debug.WriteLine("Load game");
+            _game.ChangeState(new GameState(_game, _graphicsDevice, _content, Levels.LevelSelectie.Level2));
         }
 
         public override void Draw(SpriteBatch spritebatch)
