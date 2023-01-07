@@ -20,6 +20,8 @@ namespace TestGame.States
         public GameOverState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect)
             : base(game, graphicsDevice, content, levelSelect)
         {
+            game.IsMouseVisible = true;
+
             FontLarge = content.Load<SpriteFont>("Fonts/FontLargeNieuw");
 
             Buttons = new List<IGameObject>();

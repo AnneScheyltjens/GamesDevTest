@@ -45,6 +45,9 @@ namespace TestGame.States
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect) 
             : base(game, graphicsDevice, content, levelSelect)
         {
+            game.IsMouseVisible = false;
+
+
             //LevelOneToPlay = levelOne;
             /*if (levelSelect == LevelSelectie.Level1)
             {*/
