@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestGame.States;
 
 namespace TestGame.Controls
 {
     // de button classe en de baics van de states heb ik overgenomen van deze youtube video's
     // https://www.youtube.com/watch?v=lcrgj26G5Hg
     // https://www.youtube.com/watch?v=76Mz7ClJLoE
-    public class Button : IGameObject
+    public abstract class Button : IGameObject
     {
         #region Fields
 
@@ -36,6 +37,8 @@ namespace TestGame.Controls
 
         public Vector2 Position { get; set; }
 
+        public State State { get; set; }
+
         public Rectangle Rectangle { get
             {
                 return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width+10, Texture.Height+10);
@@ -51,11 +54,15 @@ namespace TestGame.Controls
 
         #region Methods
 
-        public Button(Texture2D texture, SpriteFont font)
+        public Button(/*Texture2D texture, SpriteFont font, int x,*/ int y, State state)
         {
-            Texture = texture;
-            _font = font;
+            /*Texture = texture;
+            _font = font;*/
             PenColour = Color.Black;
+            State = state;
+            Position = new Vector2(888, y);
+            Texture = State._content.Load<Texture2D>("Controls/Button");
+            _font = State._content.Load<SpriteFont>("Fonts/FontNieuw");
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -26,32 +26,37 @@ namespace TestGame.States
             var buttonTexture = _content.Load<Texture2D>("Controls/Button");
             var buttonFont = _content.Load<SpriteFont>("Fonts/FontNieuw");
 
-            Button level1Button = new Button(buttonTexture, buttonFont)
+            /*Button level1Button = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(888, 450),
                 Text = "Level 1",
                 
             };
 
-            level1Button.Click += level1Button_click;
+            level1Button.Click += level1Button_click;*/
 
-            Button level2Button = new Button(buttonTexture, buttonFont)
+            Button level1Button = new LevelSelectButton(450, this, LevelSelectie.Level1);
+
+            /*Button level2Button = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(888, 525),
                 Text = "Level 2",
 
             };
 
-            level2Button.Click += level2Button_click;
+            level2Button.Click += level2Button_click;*/
+            Button level2Button = new LevelSelectButton(525, this, LevelSelectie.Level2);
 
-            Button quitGameButton = new Button(buttonTexture, buttonFont)
+            /*Button quitGameButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(888, 600),
                 Text = "Quit",
 
             };
 
-            quitGameButton.Click += quitGameButton_click;
+            quitGameButton.Click += quitGameButton_click;*/
+
+            Button quitGameButton = new QuitButton(600, this);
 
             _gameObjects = new List<IGameObject>()
             {
@@ -61,22 +66,22 @@ namespace TestGame.States
             };
         }
 
-        private void quitGameButton_click(object sender, EventArgs e)
+        /*private void quitGameButton_click(object sender, EventArgs e)
         {
             _game.Exit();
-        }
+        }*/
 
-        private void level1Button_click(object sender, EventArgs e)
+        /*private void level1Button_click(object sender, EventArgs e)
         {
             //load new state
             _game.ChangeState(new GameState(_game, _graphicsDevice, _content, Levels.LevelSelectie.Level1));
-        }
+        }*/
 
-        private void level2Button_click(object sender, EventArgs e)
+        /*private void level2Button_click(object sender, EventArgs e)
         {
             //Debug.WriteLine("Load game");
             _game.ChangeState(new GameState(_game, _graphicsDevice, _content, Levels.LevelSelectie.Level2));
-        }
+        }*/
 
         public override void Draw(SpriteBatch spritebatch)
         {

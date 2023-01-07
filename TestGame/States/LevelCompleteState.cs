@@ -29,7 +29,7 @@ namespace TestGame.States
 
             Buttons = new List<IGameObject>();
 
-            Button replayLevel = new Button(buttonTexture, Font)
+            /*Button replayLevel = new Button(buttonTexture, Font)
             {
                 //helft van 1916 = 985
                 Position = new Vector2(888, 450),
@@ -37,11 +37,12 @@ namespace TestGame.States
 
             };
 
-            replayLevel.Click += replayLevelButton_click;
+            replayLevel.Click += replayLevelButton_click;*/
+            Button replayLevel = new RestartButton(450, this);
 
             Buttons.Add(replayLevel);
 
-            Button nextLevelButton = new Button(buttonTexture, Font)
+            /*Button nextLevelButton = new Button(buttonTexture, Font)
             {
                 //helft van 1916 = 985
                 Position = new Vector2(888, 450),
@@ -49,36 +50,40 @@ namespace TestGame.States
 
             };
 
-            nextLevelButton.Click += nextLevelButton_click;
+            nextLevelButton.Click += nextLevelButton_click;*/
+
+            Button nextLevelButton = new NextLevelButton(450, this);
 
             Buttons.Add(nextLevelButton);
 
 
 
-            Button quitGameButton = new Button(buttonTexture, Font)
+            /*Button quitGameButton = new Button(buttonTexture, Font)
             {
                 Position = new Vector2(888, 525),
                 Text = "Quit",
 
             };
 
-            quitGameButton.Click += quitGameButton_click;
+            quitGameButton.Click += quitGameButton_click;*/
+
+            Button quitGameButton = new QuitButton(525, this);
 
             Buttons.Add(quitGameButton);
 
         }
 
-        private void quitGameButton_click(object sender, EventArgs e)
+        /*private void quitGameButton_click(object sender, EventArgs e)
         {
             _game.Exit();
-        }
+        }*/
 
-        private void replayLevelButton_click(object sender, EventArgs e)
+        /*private void replayLevelButton_click(object sender, EventArgs e)
         {
             _game.ChangeState(new GameState(_game, _graphicsDevice, _content, _levelSelect));
-        }
+        }*/
 
-        private void nextLevelButton_click(object sender, EventArgs e)
+        /*private void nextLevelButton_click(object sender, EventArgs e)
         {
             LevelSelectie nextLevel = (LevelSelectie)( (int)_levelSelect + 1);
             if (nextLevel > LevelSelectie.Level2)
@@ -89,7 +94,7 @@ namespace TestGame.States
                 _game.ChangeState(new GameState(_game, _graphicsDevice, _content, nextLevel));
 
             }
-        }
+        }*/
 
 
         public override void Draw(SpriteBatch spritebatch)

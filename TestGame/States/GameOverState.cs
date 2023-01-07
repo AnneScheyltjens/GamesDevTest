@@ -24,28 +24,32 @@ namespace TestGame.States
             var buttonTexture = content.Load<Texture2D>("Controls/Button");
             Font = content.Load<SpriteFont>("Fonts/FontNieuw");
             FontLarge = content.Load<SpriteFont>("Fonts/FontLargeNieuw");
-            
 
-            Button restartButton = new Button(buttonTexture, Font)
+
+            /*Button restartButton = new Button(buttonTexture, Font)
             {
                 Position = new Vector2(888, 450),
                 Text = "Restart level"
             };
 
-            restartButton.Click += restartButton_click;
+            restartButton.Click += restartButton_click;*/
+
+            Button restartButton = new RestartButton(450, this);
 
             Buttons = new List<IGameObject>();
 
             Buttons.Add(restartButton);
 
-            Button quitGameButton = new Button(buttonTexture, Font)
+            /*Button quitGameButton = new Button(buttonTexture, Font)
             {
                 Position = new Vector2(888, 525),
                 Text = "Quit",
 
             };
 
-            quitGameButton.Click += quitGameButton_click;
+            quitGameButton.Click += quitGameButton_click;*/
+
+            Button quitGameButton = new QuitButton(525, this);
 
             Buttons.Add(quitGameButton);
 

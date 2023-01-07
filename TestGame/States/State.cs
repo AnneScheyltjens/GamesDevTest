@@ -17,13 +17,13 @@ namespace TestGame.States
     {
         #region Fields
 
-        protected ContentManager _content;
+        public ContentManager _content;
 
-        protected GraphicsDevice _graphicsDevice;
+        public GraphicsDevice _graphicsDevice;
 
-        protected Game1 _game;
+        public Game1 _game;
 
-        protected LevelSelectie _levelSelect;
+        public LevelSelectie _levelSelect;
 
         #endregion
 

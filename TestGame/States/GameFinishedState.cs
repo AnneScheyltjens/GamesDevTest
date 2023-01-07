@@ -29,31 +29,35 @@ namespace TestGame.States
 
             Buttons = new List<IGameObject>();
 
-            Button quitGameButton = new Button(buttonTexture, Font)
+            /*Button quitGameButton = new Button(buttonTexture, Font)
             {
                 Position = new Vector2(888, 525),
                 Text = "Quit",
 
             };
 
-            quitGameButton.Click += quitGameButton_click;
+            quitGameButton.Click += quitGameButton_click;*/
+
+            Button quitGameButton = new QuitButton(525, this);
 
             Buttons.Add(quitGameButton);
 
-            Button menuButton = new Button(buttonTexture, Font)
+            /*Button menuButton = new Button(buttonTexture, Font)
             {
                 Position = new Vector2(888, 450),
                 Text = "Menu",
 
             };
 
-            menuButton.Click += menuButton_click;
+            menuButton.Click += menuButton_click;*/
+
+            Button menuButton = new MenuButton(450, this);
 
             Buttons.Add(menuButton);
 
 
         }
-        private void quitGameButton_click(object sender, EventArgs e)
+        /*private void quitGameButton_click(object sender, EventArgs e)
         {
             _game.Exit();
         }
@@ -61,7 +65,7 @@ namespace TestGame.States
         private void menuButton_click(object sender, EventArgs e)
         {
             _game.ChangeState(new MenuState(_game, _graphicsDevice, _content, LevelSelectie.None));
-        }
+        }*/
 
         public override void Draw(SpriteBatch spritebatch)
         {
