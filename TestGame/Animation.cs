@@ -43,13 +43,10 @@ namespace TestGame
         {
             
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
-            
 
             if (secondCounter >= 1d/FPS)    //1 as double 
             {
-                //counter++;    //wanneer we gewoon naar de volgende frame wilden gaan
                 ChangeFrame(richting, nrPerRij, startNr);
-                //CurrentFrame = frames[0];
                 secondCounter = 0;
             }
 
@@ -73,7 +70,6 @@ namespace TestGame
                 //andere richting, switch van richting
                 currentRichting = richting;
                 //zet frame op 1ste frame van die richting
-                //currentFrameNr = richtingNr * 4;
                 currentFrameNr = richtingNr * nrPerRij;
             }
             else
@@ -90,13 +86,6 @@ namespace TestGame
 
             CurrentFrame = frames[currentFrameNr];
 
-            //Debug.WriteLine($"Richting: {richting}, currentframeNR: {currentFrameNr}");
-
         }
-
-        /*public void InitialUpdate(Richting richting)
-        {
-            ChangeFrame(richting);
-        }*/
     }
 }

@@ -10,7 +10,7 @@ using TestGame.Levels;
 
 namespace TestGame.States
 {
-    // de button classe en de baics van de states heb ik overgenomen van deze youtube video's
+    // de basic button class en de basics van de states heb ik overgenomen van deze youtube video's
     // https://www.youtube.com/watch?v=lcrgj26G5Hg
     // https://www.youtube.com/watch?v=76Mz7ClJLoE
     public abstract class State
@@ -29,9 +29,6 @@ namespace TestGame.States
 
         #region Methods
 
-        public abstract void Draw(SpriteBatch spritebatch);
-
-        public abstract void PostUpdate(GameTime gametime);
         public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect)
         {
             _game = game;
@@ -39,6 +36,12 @@ namespace TestGame.States
             _content = content;
             _levelSelect = levelSelect;
         }
+
+
+        public abstract void Draw(SpriteBatch spritebatch);
+
+        public abstract void PostUpdate(GameTime gametime);
+       
 
         public abstract void Update(GameTime gametime);
 

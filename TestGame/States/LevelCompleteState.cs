@@ -11,9 +11,8 @@ using TestGame.Levels;
 
 namespace TestGame.States
 {
-    internal class LevelCompleteState : State
+    public class LevelCompleteState : State
     {
-        public SpriteFont Font { get; set; }
         public SpriteFont FontLarge { get; set; }
 
         public List<IGameObject> Buttons { get; set; }
@@ -26,8 +25,8 @@ namespace TestGame.States
 
             Buttons = new List<IGameObject>();
             
-            Button replayLevel = new RestartButton(450, this);
-            Button nextLevelButton = new NextLevelButton(525, this);
+            Button nextLevelButton = new NextLevelButton(450, this);
+            Button replayLevel = new RestartButton(525, this);
             Button quitGameButton = new QuitButton(600, this);
 
             Buttons.Add(replayLevel);

@@ -21,7 +21,8 @@ namespace TestGame.Controls
         private void NextLevelButton_click(object sender, EventArgs e)
         {
             LevelSelectie nextLevel = (LevelSelectie)((int)State._levelSelect + 1);
-            if (nextLevel > LevelSelectie.Level2)
+            int nrOfItemInLevelSelectie = Enum.GetNames(typeof(LevelSelectie)).Length;
+            if ((int)nextLevel > nrOfItemInLevelSelectie-1)
             {
                 State._game.ChangeState(new GameFinishedState(State._game, State._graphicsDevice, State._content, LevelSelectie.None));
             } else

@@ -27,7 +27,7 @@ namespace TestGame.States
         //private bool updateHero = true;
         //private bool heroOnGround = false;
         //private int groundLevel = 0;
-        private LevelTest levelMap;
+        private Level levelMap;
 
         public bool IsDead { get; set; }
         public bool LevelDone { get; set; }
@@ -49,7 +49,7 @@ namespace TestGame.States
             /*if (levelSelect == LevelSelectie.Level1)
             {*/
                 //hero = sheep;
-                LevelTest level = new LevelTest(1, graphicsDevice, new KeyboardReader(), content, levelSelect);
+                Level level = new Level(1, graphicsDevice, new KeyboardReader(), content, levelSelect);
                 levelMap = level;
                 hero = level.Hero;
             /*} else

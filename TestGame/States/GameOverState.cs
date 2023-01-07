@@ -12,9 +12,8 @@ using TestGame.Levels;
 
 namespace TestGame.States
 {
-    internal class GameOverState : State
+    public class GameOverState : State
     {
-        public SpriteFont Font { get; set; }
         public SpriteFont FontLarge { get; set; }
 
         public List<IGameObject> Buttons { get; set; }

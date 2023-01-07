@@ -11,10 +11,8 @@ using TestGame.Levels;
 
 namespace TestGame.States
 {
-    internal class GameFinishedState : State
+    public class GameFinishedState : State
     {
-
-        public SpriteFont Font { get; set; }
         public SpriteFont FontLarge { get; set; }
 
         public List<IGameObject> Buttons { get; set; }

@@ -15,9 +15,6 @@ namespace TestGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        //private Random rand = new Random();
-
-        private List<IGameObject> _gameObjects;
 
         private State _currentState;
         private State _nextState;
@@ -28,10 +25,6 @@ namespace TestGame
             _nextState = state;
 
         }
-
-       
-        //Hero _sheep;
-        //private Texture2D _sheepTexture;
 
         public Game1()
         {
@@ -51,17 +44,15 @@ namespace TestGame
             _graphics.HardwareModeSwitch = true;
             _graphics.ApplyChanges();
 
-
-           
             base.Initialize();
-
-            //_sheep = new Hero(_sheepTexture, new KeyboardReader(), GraphicsDevice);
            
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //beginstates, used when testing
 
             _currentState = new MenuState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
             //_currentState = new GameState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level1);
@@ -82,10 +73,6 @@ namespace TestGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            /*foreach (var component in _gameComponents)
-            {
-                component.Update(gameTime);
-            }*/
             if (_nextState != null)
             {
                 _currentState = _nextState;
@@ -97,28 +84,15 @@ namespace TestGame
             _currentState.PostUpdate(gameTime);
 
             // TODO: Add your update logic here
-
-            //_sheep.Update(gameTime);
            
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            
-
-            //int randomGetal = rand.Next(kleurtjes.Count);
-
             GraphicsDevice.Clear(Color.AliceBlue);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
-            /*foreach (var comonent in _gameComponents)
-            {
-                comonent.Draw(gameTime, _spriteBatch);
-            }*/
-            //_sheep.Draw(_spriteBatch);
-            _spriteBatch.End();
 
             _currentState.Draw(_spriteBatch);
 
