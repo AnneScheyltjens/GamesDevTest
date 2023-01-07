@@ -92,7 +92,7 @@ namespace TestGame.Levels
             //map de blok textures op een getal
             //beginent vanaf 0
 
-            Rectangle normalBlock = new Rectangle(64 * 1, 0, 64, 64);
+            Rectangle normalBlock = new Rectangle(64 * 5, 0, 64, 64);
             blockTextureRectangles.Add(1, normalBlock); 
 
             Rectangle wallRightBlock = new Rectangle(64 * 0, 64 * 1, 64, 64);
@@ -100,6 +100,43 @@ namespace TestGame.Levels
 
             Rectangle wallLeftBlock = new Rectangle(64 * 2, 64 * 1, 64, 64);
             blockTextureRectangles.Add(3, wallLeftBlock);
+
+            Rectangle groundEdgeLeft = new Rectangle(64 * 4, 64 * 0, 64, 64);
+            blockTextureRectangles.Add(4, groundEdgeLeft);
+
+            Rectangle groundEdgeRight = new Rectangle(64 * 6, 64 * 0, 64, 64);
+            blockTextureRectangles.Add(5, groundEdgeRight);
+
+            Rectangle singleBlok = new Rectangle(64 * 4, 64 * 1, 64, 64);
+            blockTextureRectangles.Add(8, singleBlok);
+
+            Rectangle leftEdgeGrass = new Rectangle(64 * 3, 64 * 3, 64, 64);
+            blockTextureRectangles.Add(7, leftEdgeGrass);
+
+            Rectangle noGrassMiddle = new Rectangle(64 * 1, 64 * 1, 64, 64);
+            blockTextureRectangles.Add(15, noGrassMiddle);
+            
+            Rectangle grassLeftEdgeDown = new Rectangle(64 * 2, 64 * 0, 64, 64);
+            blockTextureRectangles.Add(16, grassLeftEdgeDown);
+            
+            Rectangle noGrassBottomEdge = new Rectangle(64 * 0, 64 * 3, 64, 64);
+            blockTextureRectangles.Add(17, noGrassBottomEdge);
+            
+            Rectangle rightBottomEdge = new Rectangle(64 * 2, 64 * 3, 64, 64);
+            blockTextureRectangles.Add(18, rightBottomEdge);
+            
+            Rectangle rightBottom = new Rectangle(64 * 4, 64 * 3, 64, 64);
+            blockTextureRectangles.Add(19, rightBottom);
+            
+            Rectangle topLeftCorner = new Rectangle(64 * 3, 64 * 3, 64, 64);
+            blockTextureRectangles.Add(20, topLeftCorner);
+            
+            Rectangle topRightCorner = new Rectangle(64 * 4, 64 * 3, 64, 64);
+            blockTextureRectangles.Add(21, topRightCorner);
+
+
+
+
             //maak de nodige blokjes aan
             ReadMap(content, inputReader);
         }
@@ -118,6 +155,7 @@ namespace TestGame.Levels
                         //6 is hero plaats
                         if (gameboard[r, c] == 6)
                         {
+                            // 6 is schaap/hero
                             Vector2 beginPositie = new Vector2(c * 64, r * 64);
                             Hero = new Hero(content.Load<Texture2D>("sheep"), inputReader, Graphics, beginPositie);
                         }
@@ -127,7 +165,8 @@ namespace TestGame.Levels
                             Rectangle rectangle = new Rectangle(0, 0, 27, 48);
                             Prikkeldraad prik = new Prikkeldraad(PrikkeldraadTexture, positie, rectangle, Scale, Graphics);
                             Prikkeldraden.Add(prik);
-                        } else if (gameboard[r,c] == 10)
+                        } 
+                        else if (gameboard[r,c] == 10)
                         {
                             //10 is wolf
                             Vector2 positie = new Vector2(c * 64, r * 64);
@@ -140,7 +179,8 @@ namespace TestGame.Levels
                             Vector2 positie = new Vector2(c * 64, (r * 64)-4);
                             Farmer farmer = new Farmer(content.Load<Texture2D>("farmer6"), Graphics, positie, Richting.Right, content.Load<Texture2D>("bullet"));
                             Farmers.Add(farmer);
-                        } else if (gameboard[r,c] == 111)
+                        } 
+                        else if (gameboard[r,c] == 111)
                         {
                             //111 is farmer die naar links schiet
                             Vector2 positie = new Vector2(c * 64, (r * 64) - 4);

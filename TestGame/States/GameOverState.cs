@@ -12,52 +12,27 @@ using TestGame.Levels;
 
 namespace TestGame.States
 {
-    public class GameOverState : State
+    public class GameOverState : TextState
     {
-        public SpriteFont FontLarge { get; set; }
-
-        public List<IGameObject> Buttons { get; set; }
         public GameOverState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect)
             : base(game, graphicsDevice, content, levelSelect)
-        {
-            game.IsMouseVisible = true;
-
-            FontLarge = content.Load<SpriteFont>("Fonts/FontLargeNieuw");
-
-            Buttons = new List<IGameObject>();
+        { 
             Button restartButton = new RestartButton(450, this);
             Button quitGameButton = new QuitButton(525, this);
 
-            Buttons.Add(restartButton);
-            Buttons.Add(quitGameButton);
-
+            _gameObjects.Add(restartButton);
+            _gameObjects.Add(quitGameButton);
         }
 
         public override void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Begin();
-
             spritebatch.DrawString(FontLarge, "Game over", new Vector2(860, 200), Color.Red);
-
-            foreach (var gameObject in Buttons)
+            foreach (var gameObject in _gameObjects)
             {
                 gameObject.Draw(spritebatch);
             }
-
             spritebatch.End();
-        }
-
-        public override void PostUpdate(GameTime gametime)
-        {
-            
-        }
-
-        public override void Update(GameTime gametime)
-        {
-            foreach (var gameObject in Buttons)
-            {
-                gameObject.Update(gametime);
-            }
         }
     }
 }
