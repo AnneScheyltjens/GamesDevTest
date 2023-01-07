@@ -255,78 +255,65 @@ namespace TestGame.Characters
                 if (NextPositie.Richting == Richting.Idle)
                 {
                     NextPositie.HitboxPositie = new Vector2(
-                        (int)NextPositie.Positie.X + ((int)HitboxDownNr.X + 20), // + scaleXAdd,
-                        (int)NextPositie.Positie.Y + ((int)HitboxDownNr.Y + 3)); // + scaleYAdd);
+                        (int)NextPositie.Positie.X + ((int)HitboxDownNr.X + 20), 
+                        (int)NextPositie.Positie.Y + ((int)HitboxDownNr.Y + 3)); 
 
                     NextPositie.HitboxRectangle = new Rectangle(
                         (int)NextPositie.HitboxPositie.X,
                         (int)NextPositie.HitboxPositie.Y,
                         (int)HitboxDownNr.X * 2,
                         (int)HitboxDownNr.Y * 2);
-                    //NextRectagle = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, (int)HitboxDownNr.X, (int)HitboxDownNr.Y);
-
                 }
                 else if (NextPositie.Richting == Richting.Down)
                 {
                     NextPositie.HitboxPositie = new Vector2(
-                        (int)NextPositie.Positie.X + (int)HitboxDownNr.X*scale + 20, // + scaleXAdd,
-                        (int)NextPositie.Positie.Y + (int)HitboxDownNr.Y*scale + 3); // + scaleYAdd);
+                        (int)NextPositie.Positie.X + (int)HitboxDownNr.X*scale + 20, 
+                        (int)NextPositie.Positie.Y + (int)HitboxDownNr.Y*scale + 3); 
 
                     NextPositie.HitboxRectangle = new Rectangle(
                         (int)NextPositie.HitboxPositie.X,
                         (int)NextPositie.HitboxPositie.Y,
                         (int)HitboxDownNr.X,
                         (int)HitboxDownNr.Y);
-                    //NextRectagle = new Rectangle((int)positie.X + (int)HitboxDownNr.X, (int)positie.Y + (int)HitboxDownNr.Y, (int)HitboxDownNr.X, (int)HitboxDownNr.Y);
-
                 }
                 else if (NextPositie.Richting == Richting.Up)
                 {
                     NextPositie.HitboxPositie = new Vector2(
-                        (int)NextPositie.Positie.X + (int)HitboxUpNr.X * scale + 20, // + scaleXAdd,
-                        (int)NextPositie.Positie.Y + (int)HitboxUpNr.Y * scale - 10); // + scaleYAdd);
+                        (int)NextPositie.Positie.X + (int)HitboxUpNr.X * scale + 20, 
+                        (int)NextPositie.Positie.Y + (int)HitboxUpNr.Y * scale - 10); 
 
                     NextPositie.HitboxRectangle = new Rectangle(
                         (int)NextPositie.HitboxPositie.X,
                         (int)NextPositie.HitboxPositie.Y,
                         (int)HitboxUpNr.X,
                         (int)HitboxUpNr.Y);
-                    //NextRectagle = new Rectangle((int)positie.X + (int)HitboxUpNr.X, (int)positie.Y + (int)HitboxUpNr.Y, (int)HitboxUpNr.X, (int)HitboxUpNr.Y);
-
-
                 }
                 else if (NextPositie.Richting == Richting.Left)
                 {
                     NextPositie.HitboxPositie = new Vector2(
-                        (int)NextPositie.Positie.X + ((int)HitboxBreedNr.X- 13) * scale, // + scaleXAdd,// -5,
-                        (int)NextPositie.Positie.Y + ((int)HitboxBreedNr.Y  - 2.5f) * scale); // + scaleYAdd);
+                        (int)NextPositie.Positie.X + ((int)HitboxBreedNr.X- 13) * scale, 
+                        (int)NextPositie.Positie.Y + ((int)HitboxBreedNr.Y  - 2.5f) * scale); 
 
                     NextPositie.HitboxRectangle = new Rectangle(
                         (int)NextPositie.HitboxPositie.X,
                         (int)NextPositie.HitboxPositie.Y,
                         (int)HitboxBreedNr.X,
                         (int)HitboxBreedNr.Y);
-                    //NextRectagle = new Rectangle((int)positie.X + (int)HitboxBreedNr.X, (int)positie.Y + (int)HitboxBreedNr.Y, (int)HitboxBreedNr.X, (int)HitboxBreedNr.Y);
-
-
                 }
                 else
                 {
                     //schuif positie nog een beetje op
                     NextPositie.HitboxPositie = new Vector2(
-                        (int)NextPositie.Positie.X + ((int)HitboxBreedNr.X  - 8) * scale, // + scaleXAdd,//-5,
-                        (int)NextPositie.Positie.Y + ((int)HitboxBreedNr.Y - 2.5f) * scale); // + scaleYAdd);
+                        (int)NextPositie.Positie.X + ((int)HitboxBreedNr.X  - 8) * scale, 
+                        (int)NextPositie.Positie.Y + ((int)HitboxBreedNr.Y - 2.5f) * scale); 
 
                     NextPositie.HitboxRectangle = new Rectangle(
                         (int)NextPositie.HitboxPositie.X,
                         (int)NextPositie.HitboxPositie.Y,
                         (int)HitboxBreedNr.X,
                         (int)HitboxBreedNr.Y);
-                    //NextRectagle = new Rectangle((int)positie.X + (int)HitboxBreedNr.X, (int)positie.Y + (int)HitboxBreedNr.Y, (int)HitboxBreedNr.X, (int)HitboxBreedNr.Y);
-
                 }
             }
-            
         }
 
         public void GetNextPosition()

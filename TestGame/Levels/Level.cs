@@ -19,61 +19,20 @@ namespace TestGame.Levels
 {
     internal class Level : IGameObject
     {
-        /*int[,] gameboardSmall = new int[,]
-        {
-            {1,1,1,1,1,1,1,1,1,1,1,1},
-            {3,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,2},
-            {3,11,0,6,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,1,0,12,0,10,12,2},
-            {1,1,1,1,1,1,1,1,1,1,1,1}
-        };*/
-
-        /*int[,] gameboard = new int[,]
-        {
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {3,0,0,0,00,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,1,0,1,1,1,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,2},
-            {3,11,0,6,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,2},
-            {3,0,0,0,0,0,0,12,0,0,0,0,0,0,0,1,1,0,0,0,12,0,0,0,0,0,0,10,12,2},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };*/
-        //private List<Block> blocks = new List<Block>();
-
-
         public int[,] gameboard { get; set; }
+
         public List<Block> Blocks { get; set; }
         public List<Prikkeldraad> Prikkeldraden { get; set; }
-
         public List<Wolf> Wolven { get; set; }
         public List<Farmer> Farmers { get; set; }
-
         public Hero Hero { get; set; }
-        public Texture2D PrikkeldraadTexture { get; set; }
 
+        public Texture2D PrikkeldraadTexture { get; set; }
         public float Scale { get; set; }
         public Texture2D Texture { get; set; }
-
-        private int blockWidth = 64;
-        private int blockHeight = 64;
-
-        private int screenWidthPerBlock = 5; //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-        private int screenHeightPerBlock = 5; // GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-
         private Dictionary<int, Rectangle> blockTextureRectangles = new Dictionary<int, Rectangle>();
-
         public GraphicsDevice Graphics { get; set; }
+
 
         public Level(float scale, GraphicsDevice graphics, IInputReader inputReader, ContentManager content, LevelSelectie level)
         {
@@ -140,8 +99,6 @@ namespace TestGame.Levels
             
             Rectangle bottomConnector = new Rectangle(64 * 1, 64 * 3, 64, 64);
             blockTextureRectangles.Add(23, bottomConnector);
-
-
 
 
             //maak de nodige blokjes aan

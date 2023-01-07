@@ -13,13 +13,13 @@ namespace TestGame.Characters
     internal class Live : IGameObject
     {
         public Texture2D Texture { get; set; }
-
         public Vector2 Position { get; set; }
         public Rectangle PositionRect { get; set; }
         public Animation Animation { get; set; }
 
         public bool IsActive { get; set; }
         public float Scale { get; set; }
+
 
         public Live(Texture2D texture, Vector2 position)
         {

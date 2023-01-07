@@ -10,7 +10,7 @@ using TestGame.States;
 
 namespace TestGame.Controls
 {
-    // de button classe en de baics van de states heb ik overgenomen van deze youtube video's
+    // de basic button class en de basic van de states heb ik overgenomen van deze youtube video's
     // https://www.youtube.com/watch?v=lcrgj26G5Hg
     // https://www.youtube.com/watch?v=76Mz7ClJLoE
     public abstract class Button : IGameObject
@@ -24,8 +24,6 @@ namespace TestGame.Controls
         private bool _isHovering;
 
         private MouseState _previousMouse;
-
-        //private Texture2D _texture;
 
         #endregion
 
@@ -48,16 +46,12 @@ namespace TestGame.Controls
 
         public Texture2D Texture { get; set; }
 
-
-
         #endregion
 
         #region Methods
 
-        public Button(/*Texture2D texture, SpriteFont font, int x,*/ int y, State state)
+        public Button(int y, State state)
         {
-            /*Texture = texture;
-            _font = font;*/
             PenColour = Color.Black;
             State = state;
             Position = new Vector2(888, y);

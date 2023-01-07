@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace TestGame.Animatie
 {
-
     public enum Richting { Up, Left, Down, Right, Idle }
 
     internal class Animation
@@ -85,7 +84,6 @@ namespace TestGame.Animatie
             }
 
             CurrentFrame = frames[currentFrameNr];
-
         }
     }
 }

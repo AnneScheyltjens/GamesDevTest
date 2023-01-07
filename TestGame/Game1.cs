@@ -19,11 +19,9 @@ namespace TestGame
         private State _currentState;
         private State _nextState;
 
-
         public void ChangeState(State state)
         {
             _nextState = state;
-
         }
 
         public Game1()
@@ -39,13 +37,13 @@ namespace TestGame
 
             IsMouseVisible = true;
 
+            //dit is van op het internet overgenomen maar ik heb de bron niet meer
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             _graphics.HardwareModeSwitch = true;
             _graphics.ApplyChanges();
 
             base.Initialize();
-           
         }
 
         protected override void LoadContent()
@@ -54,18 +52,13 @@ namespace TestGame
 
             //beginstates, used when testing
 
-            //_currentState = new MenuState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
-            _currentState = new GameState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level1);
+            _currentState = new MenuState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
+            //_currentState = new GameState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level1);
             //_currentState = new GameOverState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level1);
             //_currentState = new LevelCompleteState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level2);
             //_currentState = new GameFinishedState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
 
-
-
             // TODO: use this.Content to load your game content here
-
-
-
         }
         
         protected override void Update(GameTime gameTime)

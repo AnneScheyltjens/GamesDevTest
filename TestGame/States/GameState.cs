@@ -22,11 +22,7 @@ namespace TestGame.States
     
     public class GameState : State
     {
-        private List<IGameObject> _gameObjects;
         private Hero hero;
-        //private bool updateHero = true;
-        //private bool heroOnGround = false;
-        //private int groundLevel = 0;
         private Level levelMap;
 
         public bool IsDead { get; set; }
@@ -37,49 +33,20 @@ namespace TestGame.States
         public ContentManager Content { get; set; }
 
         private List<IGameObject> dingenInGame { get; set; }
-
         private List<Bullet> ActiveBullets { get; set; }
-
-        public bool LevelOneToPlay { get; set; }
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, LevelSelectie levelSelect) 
             : base(game, graphicsDevice, content, levelSelect)
         {
             game.IsMouseVisible = false;
 
-
-            //LevelOneToPlay = levelOne;
-            /*if (levelSelect == LevelSelectie.Level1)
-            {*/
-                //hero = sheep;
-                Level level = new Level(1, graphicsDevice, new KeyboardReader(), content, levelSelect);
-                levelMap = level;
-                hero = level.Hero;
-            /*} else
-            {
-                //other level
-                //ook nog aanpassen
-                LevelTest level = new LevelTest(1, graphicsDevice, new KeyboardReader(), content, LevelSelectie.Level2);
-                levelMap = level;
-                hero = level.Hero;
-
-            }*/
-            //Hero sheep = new Hero(content.Load<Texture2D>("sheep"), new KeyboardReader(), graphicsDevice);
+            Level level = new Level(1, graphicsDevice, new KeyboardReader(), content, levelSelect);
+            levelMap = level;
+            hero = level.Hero;
             
-
-            
-
-            /*_gameObjects = new List<IGameObject>()
-            {
-                level,
-                hero,
-
-            };*/
-
             dingenInGame = new List<IGameObject>();
             addGameObjectsToList();
          
-
             Game = game;
             Graphics = graphicsDevice;
             Content = content;
@@ -120,13 +87,7 @@ namespace TestGame.States
         public override void Draw(SpriteBatch spritebatch)
         {
             spritebatch.Begin();
-
-            /*foreach (IGameObject gameObject in dingenInGame)
-            {
-                gameObject.Draw(spritebatch);
-            }*/
             levelMap.Draw(spritebatch);
-
             spritebatch.End();
         }
         
@@ -157,104 +118,11 @@ namespace TestGame.States
                     levelMap.Hero.Lives.ElementAt(levelMap.Hero.NrOfLivesLeft-1).Update(gametime);
                 }
                 levelMap.Hero.NotTakingDamagaTime -= 1;
-
             }
 
             if (levelMap.Hero.NotTakingDamagaTime <= 0)
             {
                 levelMap.Hero.HasBeenHit = false;
-            }
-
-            
-
-            
-        }
-
-        public void UpdateOld(GameTime gametime)
-        {
-            foreach (IGameObject gameObject in _gameObjects)
-            {
-                gameObject.Update(gametime);
-
-
-                if (gameObject == hero)
-                {
-                    bool walkOnGround = false;
-                    bool intersects = false;
-                    int groundLevel = 0;
-
-                    //check if next position is valid
-
-                    foreach (Block block in levelMap.Blocks)
-                    {
-                        if (block.Hitbox.Intersects(hero.NextPositie.HitboxRectangle))
-                        {
-                            //check of je op de vloer staat
-                            if (hero.NextPositie.HitboxRectangle.Bottom == block.Hitbox.Top ||
-                                hero.NextPositie.HitboxRectangle.Bottom == block.Hitbox.Top + 1)
-                            {
-                                //wandel op de vloer
-                                walkOnGround = true;
-                                groundLevel = block.Hitbox.Top;
-                            }
-                            else
-                            {
-                                intersects = true;
-                            }
-                        }
-                    }
-
-                    foreach (Prikkeldraad prik in levelMap.Prikkeldraden)
-                    {
-                        if (prik.Positie.HitboxRectangle.Intersects(hero.NextPositie.HitboxRectangle)) {
-                            //check of het langs de zijkant is
-                            if (prik.Positie.HitboxRectangle.Left < hero.NextPositie.HitboxRectangle.Right)
-                            {
-                                //prikkeldraad wordt langs links benaderd
-                                IsDead = true;
-
-                            } else if (prik.Positie.HitboxRectangle.Right > hero.NextPositie.HitboxRectangle.Left)
-                            {
-                                //prikkeldraad wordt langs rechts benaderd
-                                IsDead = true;
-                            } else
-                            {
-                                //langs boven of onder
-                            }
-                           
-                        }
-                    }
-
-                    //if valid
-                    if (!intersects)
-                    {
-                        //check if walks on ground
-                        if (walkOnGround)
-                        {
-                            //adjust to walk on ground
-                            /*hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X,
-                                 groundLevel - 3 - (2*hero.NextPositie.HitboxRectangle.Height)); // - hero.NextPositie.Positie.Y);
-                            hero.UpdateWithoutPositionRetrieve(gametime);*/
-
-
-                            //heroOnGround(groundLevel, gametime);
-                            OnGround(hero, groundLevel, gametime);
-                        }
-
-                        //  move to next position
-                        hero.CurrentPositie = hero.NextPositie;
-                    }
-                    else
-                    {
-                        //if not valid
-                        //  no changes to position
-                        //hero.CurrentPositie = hero.CurrentPositie;
-                        
-                    }
-                } 
-
-                
-                
             }
         }
 
@@ -265,7 +133,7 @@ namespace TestGame.States
             {
                 Hero hero = col as Hero;
                 hero.NextPositie.Positie = new Vector2(hero.NextPositie.Positie.X, 
-                    groundLevel - 3 - (2 * hero.NextPositie.HitboxRectangle.Height)); // - hero.NextPositie.Positie.Y);
+                    groundLevel - 3 - (2 * hero.NextPositie.HitboxRectangle.Height));
                 hero.UpdateWithoutPositionRetrieve(gametime);
                 hero.OnGround = true;
             } else if (col is Wolf)
@@ -275,7 +143,6 @@ namespace TestGame.States
                     groundLevel - (1.5f * col.NextPositie.HitboxRectangle.Height));
                 hero.UpdateWithoutPositionRetrieve(gametime);
             }
-            
         }
 
         private void checkBullets()
@@ -288,20 +155,12 @@ namespace TestGame.States
                     activeBullets.Add(bullet);
                 }
             }
-
             ActiveBullets = activeBullets;
-        }
-
-        private void CheckLives()
-        {
-
         }
 
         public override void Update(GameTime gametime)
         {
-            
             checkBullets();
-
 
             foreach (IGameObject gameObject in dingenInGame)
             {
@@ -321,11 +180,9 @@ namespace TestGame.States
                                 hero.NrOfLivesLeft -= 1;
                                 hero.HasBeenHit = true;
                                 hero.NotTakingDamagaTime = 100;
-                                //IsDead = true;
                                 Debug.WriteLine("Bullet raakt hero!");
                                 return;
                             }
-                            
                         }
                     }
                 }
@@ -346,21 +203,17 @@ namespace TestGame.States
                             if (ding is Prikkeldraad && col is Hero)
                             {
                                 Hero hero = col as Hero;
-                                //Debug.WriteLine(hero.NotTakingDamagaTime);
 
                                 if (!hero.HasBeenHit)
                                 {
                                     hero.NrOfLivesLeft -= 1;
                                     hero.NotTakingDamagaTime = 100;
                                     hero.HasBeenHit = true;
-                                    //IsDead = true;
-                                    //Debug.WriteLine(hero.NotTakingDamagaTime);
-
+                                   
                                     Debug.WriteLine("Prikkeldraad raakt hero!");
 
                                     return;
                                 }
-                                
                             }
                             else if (ding is Prikkeldraad && col is Wolf)
                             {
@@ -368,7 +221,6 @@ namespace TestGame.States
                                 wolf.GoesRight *= -1;
                             } else if (col is Hero && ding is Wolf)
                             {
-                                //IsDead = true;
                                 Hero hero = col as Hero;
                                 if (!hero.HasBeenHit)
                                 {
@@ -379,7 +231,6 @@ namespace TestGame.States
 
                                     return;
                                 }
-                                
                             }
                             else if (ding is Block)
                             {
@@ -407,14 +258,7 @@ namespace TestGame.States
                             {
                                 Hero hero = col as Hero;
                             }
-
-                        }/* else if (groundLevel != 0)
-                        {
-                            IGameObject ding = col as IGameObject;
-                            ding.Update(gametime);
-                            IMovingObject colli = ding as IMovingObject;
-                            colli.CurrentPositie = colli.NextPositie;
-                        }*/
+                        }
                     } else
                     {
                         col.CurrentPositie = col.NextPositie;
@@ -425,8 +269,6 @@ namespace TestGame.States
                         }
                     }
                 }
-
-
             }
         }
     }
