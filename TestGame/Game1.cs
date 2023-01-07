@@ -53,7 +53,7 @@ namespace TestGame
             //beginstates, used when testing
 
             _currentState = new MenuState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
-            //_currentState = new GameState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level1);
+            //_currentState = new GameState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level3);
             //_currentState = new GameOverState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level1);
             //_currentState = new LevelCompleteState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.Level2);
             //_currentState = new GameFinishedState(this, _graphics.GraphicsDevice, Content, Levels.LevelSelectie.None);
