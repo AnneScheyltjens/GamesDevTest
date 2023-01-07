@@ -13,20 +13,17 @@ namespace TestGame.Enemies
     {
         public Texture2D Texture { get; set; }
         public Texture2D HitboxTexture { get; set; }
-
         public Animation Animation { get; set; }
-
         public Position Positie { get; set; }
-
         public float Scale { get; set; }
 
         public int Timinig { get; set; }
-
         public List<Bullet> Bullets { get; set; }
 
         public Vector2 HitboxBreedNr { get; set; }
         public Texture2D BulletTexture { get; set; }
         public GraphicsDevice Graphics { get; set; }
+
 
         public Farmer(Texture2D texture, GraphicsDevice graphics, Vector2 beginPositie, Richting richting, Texture2D bulletTexture)
         {
@@ -49,17 +46,12 @@ namespace TestGame.Enemies
                 (int)HitboxBreedNr.X, (int)HitboxBreedNr.Y);
 
             Animation = new Animation(0);
-
             Animation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 142, 142)));
-
-
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(HitboxTexture, Positie.HitboxPositie, Positie.HitboxRectangle, Color.OrangeRed, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0);
-            //spriteBatch.Draw(Texture, CurrentPosition.Positie, Animation.CurrentFrame.SourceRectangle, Color.White);
-
 
             if (Positie.Richting == Richting.Right)
             {
@@ -67,8 +59,8 @@ namespace TestGame.Enemies
             }else
             {
                 spriteBatch.Draw(Texture, Positie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.FlipHorizontally, 0);
-
             }
+
             foreach (Bullet bullet in Bullets)
             {
                 bullet.Draw(spriteBatch);
@@ -110,7 +102,6 @@ namespace TestGame.Enemies
             {
                 Bullets.Remove(bul);
             }
-
         }
     }
 }

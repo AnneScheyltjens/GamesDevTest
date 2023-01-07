@@ -12,16 +12,10 @@ namespace TestGame.Enemies
     internal class Prikkeldraad : IGameObject
     {
         public Texture2D Texture { get; set; }
-
         public Position Positie { get; set; }
-
         public Texture2D HitboxTexture { get; set; }
-
         public float Scale { get; set; }
-
         public Rectangle Rectangle { get; set; }
-
-
 
 
         public Prikkeldraad(Texture2D texture, Vector2 position, Rectangle rectangle, float scale, GraphicsDevice graphics)
@@ -32,9 +26,6 @@ namespace TestGame.Enemies
             Scale = scale;
             HitboxTexture = new Texture2D(graphics, 1, 1);
             HitboxTexture.SetData(new[] { Color.Red });
-
-
-
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -46,7 +37,6 @@ namespace TestGame.Enemies
         public void Update(GameTime gameTime)
         {
             //not needed
-            
         }
     }
 }

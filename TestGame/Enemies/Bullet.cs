@@ -18,8 +18,6 @@ namespace TestGame.Enemies
         public Animation Animation { get; set; }
         public float Scale { get; set; }
         public Vector2 HitboxBreedNr { get; set; }
-        //public Vector2 Snelheid { get; set; }
-
 
         public Bullet(Texture2D texture, GraphicsDevice graphics, Vector2 beginPositie, Richting richting)
         {
@@ -38,24 +36,18 @@ namespace TestGame.Enemies
             NextPositie.Positie = CurrentPositie.Positie;
             NextPositie.Richting = Richting.Right;
             UpdateHitbox();
-          
-            //Snelheid = new Vector2(2, 2);
-
 
             Animation = new Animation(0);
             Animation.AddFrame(new AnimationFrame(new Rectangle(0, 0, 64, 64)));
-
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(HitboxTexture, CurrentPositie.HitboxPositie, CurrentPositie.HitboxRectangle, Color.OrangeRed);
-            //spriteBatch.Draw(Texture, CurrentPosition.Positie, Animation.CurrentFrame.SourceRectangle, Color.White);
 
             if (CurrentPositie.Richting == Richting.Left)
             {
                 spriteBatch.Draw(Texture, CurrentPositie.Positie, Animation.CurrentFrame.SourceRectangle, Color.White, 0, new Vector2(0, 0), Scale, SpriteEffects.FlipHorizontally, 0);
-
             }
             else
             {
@@ -78,12 +70,10 @@ namespace TestGame.Enemies
 
             UpdateHitbox();
             CurrentPositie = NextPositie;
-            
         }
 
         private void UpdateHitbox()
         {
-            
             NextPositie.HitboxPositie = new Vector2(
                 (int)NextPositie.Positie.X,
                 (int)NextPositie.Positie.Y+6);

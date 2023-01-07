@@ -133,6 +133,12 @@ namespace TestGame.Levels
             
             Rectangle topRightCorner = new Rectangle(64 * 4, 64 * 3, 64, 64);
             blockTextureRectangles.Add(21, topRightCorner);
+            
+            Rectangle bottomConnect = new Rectangle(64 * 3, 64 * 0, 64, 64);
+            blockTextureRectangles.Add(22, bottomConnect);
+            
+            Rectangle bottomConnector = new Rectangle(64 * 1, 64 * 3, 64, 64);
+            blockTextureRectangles.Add(23, bottomConnector);
 
 
 
