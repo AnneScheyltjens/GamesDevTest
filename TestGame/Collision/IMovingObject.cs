@@ -11,6 +11,5 @@ namespace TestGame.Collision
     {
         public Position CurrentPositie { get; set; }
         public Position NextPositie { get; set; }
-
     }
 }

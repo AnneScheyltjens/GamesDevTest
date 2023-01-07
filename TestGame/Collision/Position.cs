@@ -11,13 +11,11 @@ namespace TestGame.Collision
     {
         public Vector2 Positie { get; set; }
         public Richting Richting { get; set; }
-        //public Vector2 Snelheid { get; set; }
         public Vector2 HitboxPositie { get; set; }
         public Rectangle HitboxRectangle { get; set; }
 
         public Position()
         {
-
         }
 
         public Position(Vector2 positie, Rectangle hitboxRectangle)

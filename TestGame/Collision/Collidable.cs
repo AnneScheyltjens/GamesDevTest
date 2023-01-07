@@ -13,7 +13,7 @@ namespace TestGame.Collision
     static class Collidable
     {
         public static List<IGameObject> IntersectsWith(IMovingObject mainObject, List<IGameObject> toCollideWith)
-    {
+        {
             bool intersects = false;
             bool IsDead = false;
             List<IGameObject> collides = new List<IGameObject>();
@@ -32,18 +32,6 @@ namespace TestGame.Collision
                     {
                         //intersects = true;
                         collides.Add(blok);
-                        //intersects
-                        /*if (mainObject.NextPositie.HitboxRectangle.Bottom == blok.Hitbox.Top ||
-                            mainObject.NextPositie.HitboxRectangle.Bottom == blok.Hitbox.Top + 1)
-                        {
-                            //wandel op de vloer
-                            //walkOnGround = true;
-                            //groundLevel = blok.Hitbox.Top;
-                        }
-                        else
-                        {
-                            intersects = true;
-                        }*/
                     }
                 } else if (col is Prikkeldraad)
                 {
@@ -64,7 +52,6 @@ namespace TestGame.Collision
                             //langs boven
                         }
                     }
-
                 } else if (col is Wolf && mainObject is Hero)
                 {
                     Wolf wolf = col as Wolf;
@@ -75,11 +62,9 @@ namespace TestGame.Collision
                         collides.Add(wolf);
                     }
                 }
-
-
             }
             return collides;
-    }
+        }
 
         public static int WalksOnGround(IMovingObject mainObject, List<Block> toCollideWith)
         {
@@ -88,36 +73,30 @@ namespace TestGame.Collision
 
             foreach (Block col in toCollideWith)
             {
-           
-                    if (mainObject.NextPositie.HitboxRectangle.Intersects(col.Hitbox))
+                if (mainObject.NextPositie.HitboxRectangle.Intersects(col.Hitbox))
+                {
+                    if (mainObject is Hero)
                     {
-                        if (mainObject is Hero)
+                        //intersects
+                        if (mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top ||
+                            mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top + 1)
                         {
-                            //intersects
-                            if (mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top ||
-                                mainObject.NextPositie.HitboxRectangle.Bottom == col.Hitbox.Top + 1)
-                            {
-                                //wandel op de vloer
-                                walkOnGround = true;
-                                groundLevel = col.Hitbox.Top;
-                            }
-                        } else if (mainObject is Wolf)
-                        {
-                            if (mainObject.NextPositie.HitboxRectangle.Bottom > col.Hitbox.Top)
-                            {
-                                //wandel op de vloer
-                                walkOnGround = true;
-                                groundLevel = col.Hitbox.Top;
-                            }
+                            //wandel op de vloer
+                            walkOnGround = true;
+                            groundLevel = col.Hitbox.Top;
                         }
-                    
+                    } else if (mainObject is Wolf)
+                    {
+                        if (mainObject.NextPositie.HitboxRectangle.Bottom > col.Hitbox.Top)
+                        {
+                            //wandel op de vloer
+                            walkOnGround = true;
+                            groundLevel = col.Hitbox.Top;
+                        }
                     }
-            
-
+                }
             }
             return groundLevel;
         }
-
-
-        }
+    }
 }
