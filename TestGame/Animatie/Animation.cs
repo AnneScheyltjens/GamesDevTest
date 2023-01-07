@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestGame
+namespace TestGame.Animatie
 {
 
-    public enum Richting {Up, Left, Down, Right, Idle}
+    public enum Richting { Up, Left, Down, Right, Idle }
 
     internal class Animation
     {
@@ -41,10 +41,10 @@ namespace TestGame
 
         public void Update(GameTime gameTime, Richting richting, int nrPerRij, int startNr)
         {
-            
+
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (secondCounter >= 1d/FPS)    //1 as double 
+            if (secondCounter >= 1d / FPS)    //1 as double 
             {
                 ChangeFrame(richting, nrPerRij, startNr);
                 secondCounter = 0;
@@ -77,7 +77,7 @@ namespace TestGame
                 //zelfde richting, maar volgende frame
                 currentFrameNr += 1;
                 //check dat je niet naar een frame van een andere richting gaat
-                if (currentFrameNr > (richtingNr * nrPerRij + (nrPerRij-1)))
+                if (currentFrameNr > richtingNr * nrPerRij + (nrPerRij - 1))
                 {
                     //terugzetten op 1ste frame van de richting
                     currentFrameNr = richtingNr * nrPerRij;

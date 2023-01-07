@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestGame
+namespace TestGame.Animatie
 {
     internal class AnimationFrame
     {
@@ -14,7 +14,7 @@ namespace TestGame
         public AnimationFrame(Rectangle sourceRectangle)
         {
             SourceRectangle = sourceRectangle;
-            
+
         }
     }
 }

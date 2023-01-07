@@ -13,6 +13,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using TestGame.Animatie;
 using TestGame.Blocks;
 using TestGame.Collision;
 using TestGame.Input;
