@@ -37,7 +37,7 @@ namespace TestGame.States
         {
             spritebatch.Begin();
             spritebatch.DrawString(FontLarge, "Hungry sheep", new Vector2(828, 200), Color.Green);
-            spritebatch.DrawString(Font, "Het schaapje heeft honger en wilt naar het grasje.", new Vector2(700, 275), Color.Green);
+            spritebatch.DrawString(Font, "Het schaapje heeft honger en wilt naar het gras.", new Vector2(700, 275), Color.Green);
             spritebatch.DrawString(Font, "Maar opgepast voor de boer die het op de wolven heeft gemunt.", new Vector2(700, 300), Color.Green);
             
             foreach (var gameObject in _gameObjects)

@@ -37,7 +37,7 @@ namespace TestGame.Levels
         public Level(float scale, GraphicsDevice graphics, IInputReader inputReader, ContentManager content, LevelSelectie level)
         {
 
-            GameboardSelectie gameboards = new GameboardSelectie();
+            GameboardSelectie gameboards = GameboardSelectie.getInstance();
             gameboard = gameboards.GameBoards.GetValueOrDefault(level);
 
 

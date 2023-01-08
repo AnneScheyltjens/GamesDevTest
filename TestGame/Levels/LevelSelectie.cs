@@ -15,9 +15,11 @@ namespace TestGame.Levels
     }
     public class GameboardSelectie
     {
-        public Dictionary<LevelSelectie, int[,]> GameBoards = new Dictionary<LevelSelectie, int[,]>();
+        public  Dictionary<LevelSelectie, int[,]> GameBoards = new Dictionary<LevelSelectie, int[,]>();
 
-        public GameboardSelectie()
+        private static GameboardSelectie uniqueInstance;
+
+        private GameboardSelectie()
         {
             GameBoards.Add(LevelSelectie.None, new int[,] { });
 
@@ -80,7 +82,14 @@ namespace TestGame.Levels
                 });
         }
 
+        public static GameboardSelectie getInstance()
+        {
+            if (uniqueInstance == null)
+            {
+                uniqueInstance = new GameboardSelectie();
+            }
+            return uniqueInstance;
+        }
+
     }
-
-
 }
