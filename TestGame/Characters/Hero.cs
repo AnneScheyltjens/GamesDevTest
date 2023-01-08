@@ -43,7 +43,7 @@ namespace TestGame.Characters
 
 
         public int NrOfLivesLeft { get; set; }
-        public List<Live> Lives { get; set; }
+        public List<Life> Lives { get; set; }
         public bool HasBeenHit { get; set; }
         public int NotTakingDamagaTime { get; set; }
         public bool Showing { get; set; }
@@ -69,11 +69,11 @@ namespace TestGame.Characters
             Gravity = 2;
             AmountOfJumps = 0;
             NrOfLivesLeft = 4;
-            Lives = new List<Live>();
+            Lives = new List<Life>();
 
             for (int i = NrOfLivesLeft-1; i > 0; i--)
             {
-                Lives.Add(new Live(Texture, new Vector2(1700 + (i * 30), 40)));
+                Lives.Add(new Life(Texture, new Vector2(1700 + (i * 30), 40)));
             }
 
             CurrentPositie = new Position();
@@ -127,7 +127,7 @@ namespace TestGame.Characters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Live live in Lives)
+            foreach (Life live in Lives)
             {
                 live.Draw(spriteBatch);
             }

@@ -10,7 +10,7 @@ using TestGame.Animatie;
 
 namespace TestGame.Characters
 {
-    internal class Live : IGameObject
+    internal class Life : IGameObject
     {
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
@@ -21,7 +21,7 @@ namespace TestGame.Characters
         public float Scale { get; set; }
 
 
-        public Live(Texture2D texture, Vector2 position)
+        public Life(Texture2D texture, Vector2 position)
         {
             Texture = texture;
             Position = position;
@@ -53,7 +53,7 @@ namespace TestGame.Characters
             }
             else
             {
-                IsActive = true;    // wordt momenteel nog niet gebruikt
+                IsActive = true;    // wordt nog niet gebruikt
             }
         }
     }
